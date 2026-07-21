@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SNI sindy - ศูนย์รวมแอปพรีเมียมของแท้ราคาถูก</title>
     
-    <!-- ระบบคีย์เวิร์ด SEO สำหรับการค้นหาผ่าน Google -->
     <meta name="description" content="ร้านค้าขายแอปพรีเมียม SNI sindy แคนวาโปร แคปคัทโปร ราคาประหยัด ปลอดภัย ส่งไวอัตโนมัติ">
     <meta name="keywords" content="ขายแอปพรีเมียม, แคนวาโปร, แคปคัทโปร, Canva Pro ราคาถูก, CapCut Pro, SNI sindy, แอปส่งออโต้">
     
-    <!-- ตั้งค่าไอคอนและ PWA -->
     <link rel="icon" type="image/jpeg" href="https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg">
     <link rel="apple-touch-icon" href="https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg">
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- เรียกใช้ Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
@@ -29,38 +26,16 @@
             -webkit-tap-highlight-color: transparent; 
         }
         
-        .no-scrollbar::-webkit-scrollbar { 
-            display: none; 
-        }
-        
-        .no-scrollbar { 
-            -ms-overflow-style: none; 
-            scrollbar-width: none; 
-        }
-        
-        .blur-nav { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(12px); 
-        }
-        
-        .custom-loader { 
-            border: 3px solid #f3f3f3; 
-            border-top: 3px solid #000000; 
-            border-radius: 50%; 
-            width: 32px; 
-            height: 32px; 
-            animation: spin 1s linear infinite; 
-        }
-        
-        @keyframes spin { 
-            0% { transform: rotate(0deg); } 
-            100% { transform: rotate(360deg); } 
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .blur-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
+        .custom-loader { border: 3px solid #f3f3f3; border-top: 3px solid #000000; border-radius: 50%; width: 32px; height: 32px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="pb-32 bg-white selection:bg-black selection:text-white">
 
-    <!-- แถบเมนูด้านบน (Navbar) -->
+    <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-40 border-b border-gray-100 blur-nav">
         <div class="max-w-4xl mx-auto px-4 h-16 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -76,19 +51,16 @@
         </div>
     </nav>
 
-    <!-- ระบบโหลดข้อมูล (Loading Overlay) -->
-    <div id="actionLoadingOverlay" class="fixed inset-0 bg-white/90 z-50 flex flex-col items-center justify-center hidden">
+    <!-- ระบบโหลด -->
+    <div id="actionLoadingOverlay" class="fixed inset-0 bg-white/90 z-[70] flex flex-col items-center justify-center hidden">
         <div class="custom-loader mb-4"></div>
         <p id="loadingText" class="text-sm font-medium text-gray-600 tracking-wider">กำลังติดต่อระบบฐานข้อมูล...</p>
     </div>
 
-    <!-- ส่วนเนื้อหาหลักหน้าเว็บ -->
+    <!-- หน้าเว็บหลัก (ลูกค้า) -->
     <main class="pt-24 px-4 max-w-4xl mx-auto space-y-8" id="mainStoreView">
-        
-        <!-- รูปแบนเนอร์ร้านค้า -->
         <div id="shopBanner" class="w-full h-44 bg-gray-50 border border-gray-100 rounded-2xl bg-cover bg-center transition-all duration-500"></div>
 
-        <!-- แผงหน้าปัดแสดงสถิติ -->
         <section class="grid grid-cols-3 gap-3">
             <div class="p-4 bg-gray-50/50 border border-gray-100 rounded-xl text-center">
                 <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">ยอดขายร้าน</p>
@@ -104,41 +76,35 @@
             </div>
         </section>
 
-        <!-- ระบบแจ้งเตือน Popups -->
         <div id="dynamicPopupList" class="space-y-2"></div>
 
-        <!-- รายการสั่งซื้อล่าสุด -->
         <section class="bg-gray-50/40 border border-gray-100 rounded-xl p-4">
             <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">รายการสั่งซื้อล่าสุด</h3>
             <div id="recentOrdersFeed" class="space-y-2 max-h-24 overflow-y-auto no-scrollbar text-xs text-gray-600"></div>
         </section>
 
-        <!-- สินค้าแนะนำ -->
         <section>
             <h2 class="text-sm font-bold uppercase tracking-widest border-l-2 border-black pl-3 mb-4 text-black">สินค้าแนะนำ</h2>
             <div id="recommendedContainer" class="flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
         </section>
 
-        <!-- สินค้าทั้งหมด -->
         <section class="space-y-6">
             <h2 class="text-sm font-bold uppercase tracking-widest border-l-2 border-black pl-3 text-black">สินค้าทั้งหมด</h2>
             <div id="categorizedProductsContainer" class="space-y-8"></div>
         </section>
     </main>
 
-    <!-- ส่วนท้ายหน้าเว็บ -->
+    <!-- ส่วนท้ายเว็บ -->
     <footer class="mt-24 py-12 border-t border-gray-100 text-center space-y-3" id="mainStoreFooter">
         <p class="text-xs font-medium tracking-wide text-gray-400">SNI sindy - Premium Application Store</p>
         <div class="flex justify-center gap-4 text-xs text-black font-semibold">
             <a href="mailto:support@snisindy.com" class="hover:underline">ติดต่อแอดมิน</a>
             <span class="text-gray-200">|</span>
-            <a href="javascript:void(0)" onclick="promptAdminLogin()" class="text-gray-400 hover:text-black hover:underline">จัดการหลังบ้าน</a>
+            <a href="javascript:void(0)" onclick="promptAdminLogin()" class="text-gray-400 hover:text-black hover:underline">จัดการหลังบ้าน (ผู้ดูแล)</a>
         </div>
     </footer>
 
-    <!-- ========================================================================= -->
-    <!-- ส่วนของตะกร้าสินค้า (Cart Modal) -->
-    <!-- ========================================================================= -->
+    <!-- หน้าต่างตะกร้าสินค้า -->
     <div id="cartModalWrapper" class="fixed inset-0 bg-black/40 z-50 hidden transition-opacity duration-300">
         <div class="absolute bottom-0 left-0 right-0 max-w-xl mx-auto bg-white rounded-t-3xl p-6 h-[85vh] flex flex-col shadow-2xl transition-transform duration-300 translate-y-full" id="cartContentPanel">
             
@@ -168,7 +134,6 @@
                         <p class="text-xs font-bold text-black mt-2">ชื่อบัญชี: คิงแอดส์</p>
                     </div>
                     
-                    <!-- ระบบอ่านสลิปและส่งข้อมูลอัตโนมัติเมื่อกดอัปโหลดรูปภาพ -->
                     <label class="block w-full text-center bg-black text-white font-bold py-3.5 px-4 rounded-xl text-sm cursor-pointer hover:bg-gray-900 transition">
                         อัปโหลดสลิปเพื่อสั่งซื้อทันที
                         <input type="file" id="slipFileInputButton" accept="image/*" class="hidden">
@@ -179,61 +144,119 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ส่วนของระบบจัดการหลังบ้าน (Admin Dashboard UI) -->
+    <!-- ระบบจัดการหลังบ้าน (Admin Dashboard UI) แบบเต็มรูป -->
     <!-- ========================================================================= -->
-    <div id="adminDashboardView" class="fixed inset-0 bg-white z-50 overflow-y-auto hidden">
-        <div class="max-w-3xl mx-auto px-4 py-8">
+    <div id="adminDashboardView" class="fixed inset-0 bg-white z-[45] overflow-y-auto hidden">
+        <div class="max-w-4xl mx-auto px-4 py-8 pb-32">
             <div class="flex justify-between items-center mb-8 border-b pb-4">
-                <h1 class="text-2xl font-bold text-black">ระบบจัดการหลังบ้าน</h1>
-                <button onclick="closeAdminDashboard()" class="px-4 py-2 bg-gray-100 text-sm font-bold rounded-lg hover:bg-gray-200">ออกจากระบบ</button>
+                <h1 class="text-2xl font-bold text-black">ศูนย์ควบคุมหลังบ้าน</h1>
+                <button onclick="closeAdminDashboard()" class="px-4 py-2 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-800">กลับไปหน้าร้าน</button>
             </div>
 
-            <div class="space-y-10">
+            <div class="space-y-8">
                 <!-- ตั้งค่าแบนเนอร์ -->
                 <section class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                    <h2 class="text-sm font-bold uppercase tracking-widest text-black mb-4">ตั้งค่าแบนเนอร์ร้านค้า</h2>
-                    <div class="flex gap-2">
-                        <input type="text" id="adminBannerInput" placeholder="ใส่ลิงก์รูปภาพแบนเนอร์ (URL)" class="flex-1 px-4 py-2 border rounded-lg text-sm">
-                        <button onclick="adminSaveSettings()" class="px-4 py-2 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-800">บันทึก</button>
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-black mb-4">รูปภาพแบนเนอร์โปรโมต</h2>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="adminBannerInput" placeholder="วางลิงก์ URL รูปภาพที่นี่..." class="flex-1 px-4 py-2 border rounded-lg text-sm focus:border-black">
+                        <button onclick="adminSaveSettings()" class="px-6 py-2 bg-black text-white text-sm font-bold rounded-lg">บันทึกแบนเนอร์</button>
                     </div>
                 </section>
 
                 <!-- ตั้งค่า Popups -->
                 <section class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                    <h2 class="text-sm font-bold uppercase tracking-widest text-black mb-4">ระบบจัดการข้อความแจ้งเตือน (Pop-up)</h2>
-                    <div id="adminPopupListContainer" class="space-y-2 mb-4">
-                        <!-- รายการ Popup จะแสดงที่นี่ -->
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-black mb-4">ระบบข้อความแจ้งเตือน (Pop-up)</h2>
+                    <div id="adminPopupListContainer" class="space-y-2 mb-4"></div>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="adminNewPopupInput" placeholder="พิมพ์ประกาศแจ้งเตือนใหม่..." class="flex-1 px-4 py-2 border rounded-lg text-sm focus:border-black">
+                        <button onclick="adminAddPopup()" class="px-6 py-2 bg-gray-800 text-white text-sm font-bold rounded-lg">เพิ่มข้อความ</button>
                     </div>
-                    <div class="flex gap-2">
-                        <input type="text" id="adminNewPopupInput" placeholder="เพิ่มข้อความแจ้งเตือนใหม่..." class="flex-1 px-4 py-2 border rounded-lg text-sm">
-                        <button onclick="adminAddPopup()" class="px-4 py-2 bg-gray-800 text-white text-sm font-bold rounded-lg">เพิ่ม</button>
-                    </div>
-                    <button onclick="adminSavePopupsToServer()" class="w-full mt-4 py-3 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-800">บันทึกการเปลี่ยนแปลงแจ้งเตือนทั้งหมด</button>
+                    <button onclick="adminSavePopupsToServer()" class="w-full mt-4 py-3 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-800 transition">อัปเดตระบบแจ้งเตือนทั้งหมดลงฐานข้อมูล</button>
                 </section>
+
+                <!-- ตั้งค่า สินค้า (Products) -->
+                <section class="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                        <h2 class="text-sm font-bold uppercase tracking-widest text-black">ระบบจัดการสต๊อกและสินค้า</h2>
+                        <button onclick="adminOpenProductModal()" class="px-5 py-2 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-800">+ เพิ่มสินค้าใหม่</button>
+                    </div>
+                    <!-- รายการสินค้าจะแสดงที่นี่ -->
+                    <div id="adminProductListContainer" class="space-y-3"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- หน้าต่าง (Modal) แบบฟอร์มเพิ่ม/แก้ไขสินค้า -->
+    <div id="adminProductModal" class="fixed inset-0 bg-black/60 z-[60] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl flex flex-col max-h-[90vh]">
+            <h3 class="font-bold text-xl mb-4 text-black border-b pb-3" id="adminProductModalTitle">แก้ไขข้อมูลสินค้า</h3>
+            
+            <div class="overflow-y-auto space-y-4 no-scrollbar pr-2 flex-1 pb-4">
+                <input type="hidden" id="adminProdId">
                 
-                <p class="text-xs text-gray-400 text-center">* สำหรับการเพิ่มสินค้าหรือแก้ไขสต๊อกจำนวนมาก แนะนำให้ทำผ่าน Google Sheet โดยตรงเพื่อความรวดเร็วและปลอดภัย</p>
+                <div>
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">ชื่อสินค้า</label>
+                    <input type="text" id="adminProdName" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:border-black outline-none" placeholder="เช่น Canva Pro 1 เดือน">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">หมวดหมู่</label>
+                        <input type="text" id="adminProdCategory" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:border-black outline-none" placeholder="เช่น แอปทำงาน">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">ราคา (บาท)</label>
+                        <input type="number" id="adminProdPrice" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:border-black outline-none" placeholder="0">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">จำนวนสต๊อก (ชิ้น)</label>
+                    <input type="number" id="adminProdStock" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:border-black outline-none" placeholder="0">
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">ลิงก์รูปภาพปก (URL)</label>
+                    <input type="text" id="adminProdImage" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:border-black outline-none" placeholder="https://...">
+                </div>
+
+                <label class="flex items-center gap-3 p-3 border border-gray-100 bg-gray-50 rounded-lg cursor-pointer">
+                    <input type="checkbox" id="adminProdRecommended" class="w-5 h-5 accent-black">
+                    <span class="text-sm font-bold text-black">ตั้งเป็นสินค้าแนะนำ (ติดดาว)</span>
+                </label>
+
+                <div>
+                    <label class="text-xs font-bold text-red-500 uppercase tracking-wider block mb-1">ข้อมูลลับ (ส่งให้ลูกค้าเมื่อชำระเงิน)</label>
+                    <textarea id="adminProdData" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm h-28 focus:border-black outline-none" placeholder="ใส่รหัสบัตรเติมเงิน ลิงก์เข้าทีม หรือข้อมูลที่ต้องการส่งให้ลูกค้าผ่านอีเมล..."></textarea>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4 border-t border-gray-100 mt-2">
+                <button onclick="adminCloseProductModal()" class="px-5 py-2.5 bg-gray-100 text-sm font-bold rounded-lg hover:bg-gray-200">ยกเลิก</button>
+                <button onclick="adminSaveProduct()" class="px-5 py-2.5 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-800">บันทึกข้อมูลสินค้า</button>
             </div>
         </div>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- สคริปต์การทำงานทั้งหมด (JavaScript) -->
+    <!-- สคริปต์การทำงานของระบบทั้งหมด (JavaScript) -->
     <!-- ========================================================================= -->
     <script>
-        // กำหนด URL ของ Google Apps Script ที่ได้รับหลังจากการ Deploy
-        // ** ต้องนำลิงก์ใหม่ของคุณมาใส่ตรงนี้ และต้องลงท้ายด้วย /exec เสมอ **
+        // *** โปรดนำ URL ที่ได้จากการ Deploy ของคุณมาใส่ตรงนี้ ***
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxcPPHWQecVaTEXiVoDLdzc9qgJMAq2nbIv_WQIz14IkmG53Q7lUEagKXJVX74-3Aw3/exec'; 
 
-        // ตัวแปรเก็บข้อมูลสถานะของแอปพลิเคชัน
         let storeState = { 
             products: [], 
             cart: [], 
+            adminPassword: '',
+            adminProducts: [], // ข้อมูลสินค้าของแอดมิน (มีช่องลับ)
             popupsAdminDraft: [],
             isProcessing: false 
         };
 
         // =====================================================================
-        // ฟังก์ชันเริ่มต้นโหลดข้อมูลจากเซิร์ฟเวอร์
+        // ระบบฝั่งลูกค้า
         // =====================================================================
         async function runStoreApp() {
             toggleLoadingView(true, "กำลังโหลดข้อมูลร้านค้า...");
@@ -244,12 +267,11 @@
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     redirect: 'follow'
                 });
-                
                 const result = await response.json();
                 
                 if (result.status === 'success') {
                     storeState.products = result.products;
-                    storeState.popupsAdminDraft = [...result.popups]; // คัดลอกไว้ใช้ในระบบหลังบ้าน
+                    storeState.popupsAdminDraft = [...result.popups];
                     
                     setupDashboardStats(result.stats);
                     setupPopups(result.popups);
@@ -261,53 +283,35 @@
                         document.getElementById('adminBannerInput').value = result.settings.Banner_URL;
                     }
                 } else {
-                    alert('พบข้อผิดพลาดจากเซิร์ฟเวอร์: ' + result.message);
+                    alert('พบข้อผิดพลาด: ' + result.message);
                 }
             } catch (error) {
-                alert('การเชื่อมต่อล้มเหลว โปรดตรวจสอบว่าคุณได้วาง URL ถูกต้องและกดยืนยันสิทธิ์ใน Apps Script แล้ว');
-                console.error(error);
+                alert('เชื่อมต่อฐานข้อมูลล้มเหลว กรุณาตรวจสอบ URL และสิทธิ์การทำงาน Apps Script');
             } finally {
                 toggleLoadingView(false);
             }
         }
 
-        // =====================================================================
-        // ฟังก์ชันแสดงผล UI หน้าแรก
-        // =====================================================================
         function setupDashboardStats(stats) {
             document.getElementById('dashboardSales').innerText = `฿${stats.totalSales.toLocaleString()}`;
             document.getElementById('dashboardTotalStock').innerText = stats.totalStock.toLocaleString();
-            
-            const availableStockCount = storeState.products.reduce((sum, item) => sum + item.stock, 0);
-            document.getElementById('dashboardAvailableStock').innerText = availableStockCount.toLocaleString();
+            document.getElementById('dashboardAvailableStock').innerText = storeState.products.reduce((sum, p) => sum + p.stock, 0).toLocaleString();
         }
 
-        function setupPopups(popupsArray) {
+        function setupPopups(popups) {
             const container = document.getElementById('dynamicPopupList');
-            if (!popupsArray || popupsArray.length === 0) {
-                container.innerHTML = '';
-                return;
-            }
-            
-            container.innerHTML = popupsArray.map(message => `
+            container.innerHTML = popups.map(message => `
                 <div class="p-3 bg-gray-50 border border-gray-100 text-xs font-medium text-black rounded-xl flex justify-between items-center">
-                    <div class="flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 bg-black rounded-full"></span>
-                        <span>${message}</span>
-                    </div>
-                    <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-black font-bold px-1">&times;</button>
+                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-black rounded-full"></span><span>${message}</span></div>
+                    <button onclick="this.parentElement.remove()" class="text-gray-400 font-bold px-1">&times;</button>
                 </div>
             `).join('');
         }
 
-        function setupRecentOrders(ordersArray) {
+        function setupRecentOrders(orders) {
             const container = document.getElementById('recentOrdersFeed');
-            if (!ordersArray || ordersArray.length === 0) {
-                container.innerHTML = '<p class="text-gray-400 italic">ยังไม่มีรายการสั่งซื้อล่าสุดในขณะนี้</p>';
-                return;
-            }
-            
-            container.innerHTML = ordersArray.map(order => `
+            if (!orders || orders.length === 0) return container.innerHTML = '<p class="text-gray-400 italic">ยังไม่มีรายการสั่งซื้อ</p>';
+            container.innerHTML = orders.map(order => `
                 <div class="flex justify-between items-center py-1.5 border-b border-gray-50 last:border-0">
                     <span class="font-mono text-gray-400">ออเดอร์ #${order.orderId}</span>
                     <span class="font-bold text-black">฿${order.amount} (${order.time} น.)</span>
@@ -316,114 +320,81 @@
         }
 
         function renderProductDisplay() {
-            const recommendedContainer = document.getElementById('recommendedContainer');
-            const categoriesContainer = document.getElementById('categorizedProductsContainer');
+            const recContainer = document.getElementById('recommendedContainer');
+            const catContainer = document.getElementById('categorizedProductsContainer');
+            recContainer.innerHTML = ''; catContainer.innerHTML = '';
             
-            recommendedContainer.innerHTML = ''; 
-            categoriesContainer.innerHTML = '';
-            
-            const categoriesMap = {};
-            
-            storeState.products.forEach(product => {
-                // จัดกลุ่มสินค้าตามหมวดหมู่
-                if (!categoriesMap[product.category]) {
-                    categoriesMap[product.category] = [];
-                }
-                categoriesMap[product.category].push(product);
-
-                // ตรวจสอบและแสดงสินค้าแนะนำ
-                if (product.recommended) {
-                    recommendedContainer.innerHTML += createProductCardHtml(product, true);
-                }
+            const categories = {};
+            storeState.products.forEach(p => {
+                if (!categories[p.category]) categories[p.category] = [];
+                categories[p.category].push(p);
+                if (p.recommended) recContainer.innerHTML += createProductCardHtml(p, true);
             });
 
-            if (recommendedContainer.innerHTML === '') {
-                recommendedContainer.innerHTML = '<p class="text-xs text-gray-400 italic">ยังไม่มีสินค้าแนะนำ</p>';
-            }
+            if (recContainer.innerHTML === '') recContainer.innerHTML = '<p class="text-xs text-gray-400 italic">ไม่มีสินค้าแนะนำ</p>';
 
-            // แสดงสินค้าทั้งหมดแยกตามหมวดหมู่
-            Object.keys(categoriesMap).forEach(categoryName => {
-                const categoryProductsHtml = categoriesMap[categoryName].map(product => createProductCardHtml(product, false)).join('');
-                
-                categoriesContainer.innerHTML += `
+            Object.keys(categories).forEach(cat => {
+                catContainer.innerHTML += `
                     <div class="space-y-3">
-                        <h3 class="text-xs font-bold uppercase text-gray-400 tracking-widest">${categoryName}</h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            ${categoryProductsHtml}
-                        </div>
+                        <h3 class="text-xs font-bold uppercase text-gray-400 tracking-widest">${cat}</h3>
+                        <div class="grid grid-cols-2 gap-3">${categories[cat].map(p => createProductCardHtml(p, false)).join('')}</div>
                     </div>
                 `;
             });
         }
 
-        function createProductCardHtml(product, isRecommendedCard) {
-            const cardWidthClass = isRecommendedCard ? 'w-48 flex-shrink-0' : '';
-            const outOfStockOverlay = product.stock <= 0 
-                ? `<div class="absolute inset-0 bg-white/80 backdrop-blur-[1px] flex items-center justify-center text-xs font-bold text-red-500">สินค้าหมด</div>` 
-                : '';
-                
+        function createProductCardHtml(product, isRec) {
             return `
-                <div class="${cardWidthClass} bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm flex flex-col">
+                <div class="${isRec ? 'w-48 flex-shrink-0' : ''} bg-white border border-gray-100 rounded-xl overflow-hidden flex flex-col">
                     <div class="h-28 bg-gray-50 relative">
                         ${product.image ? `<img src="${product.image}" class="w-full h-full object-cover">` : ''}
-                        ${outOfStockOverlay}
+                        ${product.stock <= 0 ? `<div class="absolute inset-0 bg-white/80 flex items-center justify-center text-xs font-bold text-red-500">สินค้าหมด</div>` : ''}
                     </div>
                     <div class="p-3 flex flex-col flex-1">
-                        <h4 class="font-bold text-xs text-black truncate">${product.name}</h4>
+                        <h4 class="font-bold text-xs truncate">${product.name}</h4>
                         <div class="pt-2 mt-auto flex justify-between items-center">
                             <span class="font-bold text-xs text-black">฿${product.price}</span>
-                            <button onclick="addItemToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center font-bold disabled:bg-gray-200 transition">+</button>
+                            <button onclick="addItemToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center font-bold disabled:bg-gray-200">+</button>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        // =====================================================================
-        // ระบบตะกร้าสินค้าและการสั่งซื้อ (Cart & Checkout)
-        // =====================================================================
-        function addItemToCart(productId) {
-            const product = storeState.products.find(p => p.id === productId.toString());
+        // ระบบตะกร้าสินค้าและการโอนเงิน
+        function addItemToCart(id) {
+            const product = storeState.products.find(p => p.id === id.toString());
             if (!product || product.stock <= 0) return;
 
-            const existingCartItem = storeState.cart.find(c => c.id === productId.toString());
-            
-            if (existingCartItem) {
-                if (existingCartItem.qty < product.stock) {
-                    existingCartItem.qty++;
-                } else {
-                    alert('ไม่สามารถเพิ่มจำนวนได้เนื่องจากสินค้าเกินสต๊อกคงเหลือในร้าน');
-                }
+            const existing = storeState.cart.find(c => c.id === id.toString());
+            if (existing) {
+                if (existing.qty < product.stock) existing.qty++;
+                else alert('สินค้าในร้านมีจำกัด ไม่สามารถเพิ่มได้อีก');
             } else {
                 storeState.cart.push({ ...product, qty: 1 });
             }
-            
             updateCartInterface();
         }
 
         function updateCartInterface() {
-            const totalItems = storeState.cart.reduce((sum, item) => sum + item.qty, 0);
-            const totalPrice = storeState.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const count = storeState.cart.reduce((s, i) => s + i.qty, 0);
+            const total = storeState.cart.reduce((s, i) => s + (i.price * i.qty), 0);
             
-            document.getElementById('globalCartCount').innerText = totalItems;
-            document.getElementById('cartTotalPriceLabel').innerText = `฿${totalPrice.toLocaleString()}`;
+            document.getElementById('globalCartCount').innerText = count;
+            document.getElementById('cartTotalPriceLabel').innerText = `฿${total.toLocaleString()}`;
 
-            const listContainer = document.getElementById('cartItemsList');
-            
-            if (storeState.cart.length === 0) {
-                listContainer.innerHTML = '<div class="text-center py-10"><p class="text-xs text-gray-400">ตะกร้าของคุณว่างเปล่า</p></div>';
-                return;
-            }
+            const list = document.getElementById('cartItemsList');
+            if (storeState.cart.length === 0) return list.innerHTML = '<p class="text-center text-xs text-gray-400 py-10">ตะกร้าของคุณว่างเปล่า</p>';
 
-            listContainer.innerHTML = storeState.cart.map((item, index) => `
+            list.innerHTML = storeState.cart.map((item, idx) => `
                 <div class="flex justify-between items-center p-3 bg-gray-50 border border-gray-100 rounded-xl">
                     <div class="flex-1 pr-3">
-                        <h5 class="font-bold text-xs text-black truncate">${item.name}</h5>
+                        <h5 class="font-bold text-xs truncate">${item.name}</h5>
                         <p class="text-[10px] text-gray-400 mt-0.5">฿${item.price} x ${item.qty}</p>
                     </div>
                     <div class="flex items-center gap-3">
-                        <span class="font-bold text-xs text-black">฿${(item.price * item.qty).toLocaleString()}</span>
-                        <button onclick="storeState.cart.splice(${index}, 1); updateCartInterface();" class="text-gray-300 hover:text-black font-bold text-lg px-1">&times;</button>
+                        <span class="font-bold text-xs">฿${(item.price * item.qty).toLocaleString()}</span>
+                        <button onclick="storeState.cart.splice(${idx}, 1); updateCartInterface();" class="text-gray-300 font-bold text-lg">&times;</button>
                     </div>
                 </div>
             `).join('');
@@ -432,7 +403,6 @@
         function toggleCartModal(isOpen) {
             const wrapper = document.getElementById('cartModalWrapper');
             const panel = document.getElementById('cartContentPanel');
-            
             if (isOpen) {
                 wrapper.classList.remove('hidden');
                 setTimeout(() => panel.classList.remove('translate-y-full'), 10);
@@ -442,240 +412,295 @@
             }
         }
 
-        // ฟังก์ชันแปลงไฟล์รูปภาพเป็นข้อมูลอักขระ (Base64) เพื่อส่งผ่าน API
         const convertFileToBase64 = file => new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => resolve(fileReader.result);
-            fileReader.onerror = error => reject(error);
+            const reader = new FileReader(); reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result); reader.onerror = e => reject(e);
         });
 
-        // ตรวจจับเมื่อลูกค้าอัปโหลดรูปสลิป ระบบจะทำงานทันทีโดยไม่ต้องมีปุ่มยืนยัน
-        document.getElementById('slipFileInputButton').addEventListener('change', async function(event) {
-            const uploadedFile = event.target.files[0];
-            const customerEmail = document.getElementById('customerInputEmail').value.trim();
-            const orderTotalAmount = storeState.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        document.getElementById('slipFileInputButton').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            const email = document.getElementById('customerInputEmail').value.trim();
+            const totalAmount = storeState.cart.reduce((s, i) => s + (i.price * i.qty), 0);
 
-            // ตรวจสอบความถูกต้องเบื้องต้น
-            if (storeState.cart.length === 0) {
-                alert('กรุณาเลือกสินค้าลงตะกร้าก่อนทำการชำระเงิน');
-                this.value = '';
-                return;
-            }
-            if (!customerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
-                alert('กรุณาระบุอีเมลให้ถูกต้องเพื่อรับสินค้า');
-                this.value = '';
-                return;
-            }
-            if (!uploadedFile) return;
+            if (storeState.cart.length === 0) return alert('เลือกสินค้าลงตะกร้าก่อน'), this.value = '';
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert('ระบุอีเมลให้ถูกต้อง'), this.value = '';
+            if (!file) return;
             
-            // ล็อคระบบเพื่อป้องกันการกดซ้ำซ้อน
             if (storeState.isProcessing) return;
             storeState.isProcessing = true;
-            toggleLoadingView(true, "ระบบกำลังประมวลผลคำสั่งซื้อและตรวจสลิป...");
+            toggleLoadingView(true, "ระบบกำลังตรวจสอบสลิปและโอนสินค้า...");
 
             try {
-                // แปลงไฟล์ภาพและตัดส่วนหัวออก
-                const base64Content = await convertFileToBase64(uploadedFile);
-                const pureBase64Data = base64Content.split(',')[1];
-
-                const payload = {
-                    action: 'checkout',
-                    email: customerEmail,
-                    cart: storeState.cart.map(item => ({ id: item.id, qty: item.qty })),
-                    slipBase64: pureBase64Data,
-                    slipMimeType: uploadedFile.type,
-                    totalAmount: orderTotalAmount
-                };
-
+                const base64Data = (await convertFileToBase64(file)).split(',')[1];
                 const response = await fetch(GAS_API_URL, {
                     method: 'POST',
-                    body: JSON.stringify(payload),
+                    body: JSON.stringify({ action: 'checkout', email: email, cart: storeState.cart.map(i => ({ id: i.id, qty: i.qty })), slipBase64: base64Data, slipMimeType: file.type, totalAmount: totalAmount }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     redirect: 'follow'
                 });
                 
-                const responseData = await response.json();
-                
-                if (responseData.status === 'success') {
-                    alert('ชำระเงินสำเร็จ! ' + responseData.message);
-                    
-                    // เคลียร์ตะกร้าและข้อมูลเมื่อสำเร็จ
-                    storeState.cart = [];
-                    updateCartInterface();
-                    toggleCartModal(false);
-                    document.getElementById('customerInputEmail').value = '';
-                    
-                    // โหลดข้อมูลร้านค้าใหม่เพื่ออัปเดตสต๊อก
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('สำเร็จ! ' + result.message);
+                    storeState.cart = []; updateCartInterface(); toggleCartModal(false); document.getElementById('customerInputEmail').value = '';
                     await runStoreApp();
                 } else {
-                    alert('ข้อผิดพลาดในการตรวจสอบ: ' + responseData.message);
+                    alert('ข้อผิดพลาด: ' + result.message);
                 }
-            } catch (error) {
-                alert('เกิดปัญหาระหว่างเชื่อมต่อเซิร์ฟเวอร์ กรุณาลองใหม่อีกครั้ง');
-                console.error(error);
+            } catch (err) {
+                alert('เชื่อมต่อเซิร์ฟเวอร์ขัดข้อง');
             } finally {
-                this.value = ''; // เคลียร์ช่องอัปโหลดไฟล์
-                storeState.isProcessing = false;
-                toggleLoadingView(false);
+                this.value = ''; storeState.isProcessing = false; toggleLoadingView(false);
             }
         });
 
         // =====================================================================
-        // ระบบจัดการหลังบ้าน (Admin Operations)
+        // ระบบแอดมินและการแก้ไขข้อมูล
         // =====================================================================
-        
         async function promptAdminLogin() {
-            const password = prompt('กรุณาใส่รหัสผ่านเพื่อเข้าสู่ระบบหลังบ้าน:');
-            if (!password) return;
+            const pass = prompt('ใส่รหัสผ่านหลังบ้าน (ค่าเริ่มต้น: 123456):');
+            if (!pass) return;
 
-            toggleLoadingView(true, "กำลังตรวจสอบสิทธิ์...");
+            toggleLoadingView(true, "ตรวจสอบสิทธิ์ผู้ดูแลระบบ...");
             try {
                 const response = await fetch(GAS_API_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ action: 'admin_login', password: password }),
+                    body: JSON.stringify({ action: 'admin_get_products_full', password: pass }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     redirect: 'follow'
                 });
                 const result = await response.json();
 
                 if (result.status === 'success') {
-                    // ปิดหน้าเว็บหลัก เปิดหน้าแอดมิน
+                    storeState.adminPassword = pass;
+                    storeState.adminProducts = result.products;
+                    
                     document.getElementById('mainStoreView').classList.add('hidden');
                     document.getElementById('mainStoreFooter').classList.add('hidden');
                     document.getElementById('adminDashboardView').classList.remove('hidden');
                     
                     renderAdminPopups();
+                    renderAdminProducts();
                 } else {
                     alert(result.message);
                 }
-            } catch (err) {
-                alert('การเชื่อมต่อล้มเหลว');
-            } finally {
-                toggleLoadingView(false);
-            }
+            } catch (err) { alert('ล้มเหลวในการเข้าระบบ'); } 
+            finally { toggleLoadingView(false); }
         }
 
         function closeAdminDashboard() {
             document.getElementById('adminDashboardView').classList.add('hidden');
             document.getElementById('mainStoreView').classList.remove('hidden');
             document.getElementById('mainStoreFooter').classList.remove('hidden');
-            // รีเฟรชหน้าร้านใหม่
-            runStoreApp();
+            runStoreApp(); // รีเฟรชหน้าร้านให้ลูกค้า
         }
 
         async function adminSaveSettings() {
-            const newBannerUrl = document.getElementById('adminBannerInput').value.trim();
-            if(!newBannerUrl) return alert('กรุณาใส่ลิงก์รูปภาพ');
+            const link = document.getElementById('adminBannerInput').value.trim();
+            if(!link) return alert('โปรดใส่ลิงก์รูปภาพ');
 
-            toggleLoadingView(true, "กำลังบันทึกการตั้งค่า...");
+            toggleLoadingView(true, "กำลังอัปเดตแบนเนอร์...");
             try {
                 const response = await fetch(GAS_API_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ 
-                        action: 'admin_save_settings', 
-                        settings: { bannerUrl: newBannerUrl } 
-                    }),
+                    body: JSON.stringify({ action: 'admin_save_settings', password: storeState.adminPassword, settings: { bannerUrl: link } }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     redirect: 'follow'
                 });
                 const result = await response.json();
                 alert(result.message);
-            } catch (err) {
-                alert('การบันทึกล้มเหลว');
-            } finally {
-                toggleLoadingView(false);
-            }
+            } catch (err) { alert('การบันทึกล้มเหลว'); } 
+            finally { toggleLoadingView(false); }
         }
 
-        // การจัดการ Popups ในหน้าแอดมิน
         function renderAdminPopups() {
             const container = document.getElementById('adminPopupListContainer');
-            container.innerHTML = storeState.popupsAdminDraft.map((msg, index) => `
-                <div class="flex justify-between items-center p-3 bg-white border rounded-lg">
+            if(storeState.popupsAdminDraft.length === 0) {
+                return container.innerHTML = '<p class="text-xs text-gray-400">ยังไม่มีข้อความแจ้งเตือน</p>';
+            }
+            container.innerHTML = storeState.popupsAdminDraft.map((msg, idx) => `
+                <div class="flex justify-between items-center p-3 bg-white border rounded-lg shadow-sm">
                     <span class="text-sm truncate pr-4">${msg}</span>
-                    <button onclick="adminRemovePopup(${index})" class="text-red-500 font-bold text-xs hover:underline">ลบ</button>
+                    <button onclick="storeState.popupsAdminDraft.splice(${idx}, 1); renderAdminPopups();" class="text-red-500 font-bold text-xs hover:underline">ลบ</button>
                 </div>
             `).join('');
-            if(storeState.popupsAdminDraft.length === 0) {
-                container.innerHTML = '<p class="text-xs text-gray-400">ยังไม่มีข้อความแจ้งเตือน</p>';
-            }
         }
 
         function adminAddPopup() {
             const input = document.getElementById('adminNewPopupInput');
-            const text = input.value.trim();
-            if (text) {
-                storeState.popupsAdminDraft.push(text);
+            if (input.value.trim()) {
+                storeState.popupsAdminDraft.push(input.value.trim());
                 input.value = '';
                 renderAdminPopups();
             }
         }
 
-        function adminRemovePopup(index) {
-            storeState.popupsAdminDraft.splice(index, 1);
-            renderAdminPopups();
-        }
-
         async function adminSavePopupsToServer() {
-            toggleLoadingView(true, "กำลังบันทึกข้อความแจ้งเตือน...");
+            toggleLoadingView(true, "อัปเดตระบบแจ้งเตือน...");
             try {
                 const response = await fetch(GAS_API_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ 
-                        action: 'admin_save_popups', 
-                        popups: storeState.popupsAdminDraft 
-                    }),
+                    body: JSON.stringify({ action: 'admin_save_popups', password: storeState.adminPassword, popups: storeState.popupsAdminDraft }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     redirect: 'follow'
                 });
                 const result = await response.json();
                 alert(result.message);
-            } catch (err) {
-                alert('การบันทึกล้มเหลว');
-            } finally {
-                toggleLoadingView(false);
-            }
+            } catch (err) { alert('บันทึกล้มเหลว'); } 
+            finally { toggleLoadingView(false); }
         }
 
-        // =====================================================================
-        // ฟังก์ชันช่วยเหลือทั่วไป
-        // =====================================================================
-        function toggleLoadingView(isShowing, textMessage) {
-            const loadingOverlay = document.getElementById('actionLoadingOverlay');
-            if (isShowing) {
-                loadingOverlay.classList.remove('hidden');
-                if (textMessage) {
-                    document.getElementById('loadingText').innerText = textMessage;
-                }
+        // --- ส่วนจัดการสินค้า ---
+        function renderAdminProducts() {
+            const container = document.getElementById('adminProductListContainer');
+            if (storeState.adminProducts.length === 0) {
+                return container.innerHTML = '<p class="text-sm text-gray-400 bg-white p-6 rounded-xl border border-dashed text-center">ยังไม่มีสินค้าในระบบ</p>';
+            }
+
+            container.innerHTML = storeState.adminProducts.map(p => `
+                <div class="p-4 bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col md:flex-row gap-4 items-start md:items-center">
+                    <img src="${p.image || 'https://via.placeholder.com/150'}" class="w-16 h-16 object-cover rounded-lg border bg-gray-50">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex gap-2 items-center mb-1">
+                            <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded uppercase">${p.id}</span>
+                            <h4 class="text-sm font-bold text-black truncate">${p.name}</h4>
+                        </div>
+                        <p class="text-xs text-gray-500">หมวดหมู่: ${p.category} | ราคา: ฿${p.price} | สต๊อก: ${p.stock}</p>
+                        <p class="text-[10px] text-red-500 font-medium truncate max-w-full mt-1 bg-red-50 p-1 px-2 rounded inline-block">ข้อมูลลับ: ${p.data}</p>
+                    </div>
+                    <div class="flex gap-2 w-full md:w-auto mt-2 md:mt-0">
+                        <button onclick="adminOpenProductModal('${p.id}')" class="flex-1 px-4 py-2 bg-gray-100 text-xs font-bold rounded-lg hover:bg-gray-200 transition">แก้ไข</button>
+                        <button onclick="adminDeleteProduct('${p.id}')" class="flex-1 px-4 py-2 bg-red-50 text-red-600 text-xs font-bold rounded-lg hover:bg-red-100 transition">ลบ</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function adminOpenProductModal(productId = null) {
+            document.getElementById('adminProductModal').classList.remove('hidden');
+            if (productId) {
+                const product = storeState.adminProducts.find(p => p.id === productId);
+                document.getElementById('adminProdId').value = product.id;
+                document.getElementById('adminProdName').value = product.name;
+                document.getElementById('adminProdCategory').value = product.category;
+                document.getElementById('adminProdPrice').value = product.price;
+                document.getElementById('adminProdStock').value = product.stock;
+                document.getElementById('adminProdImage').value = product.image;
+                document.getElementById('adminProdRecommended').checked = product.recommended;
+                document.getElementById('adminProdData').value = product.data;
+                document.getElementById('adminProductModalTitle').innerText = 'แก้ไขสินค้า: ' + product.name;
             } else {
-                loadingOverlay.classList.add('hidden');
+                document.getElementById('adminProdId').value = '';
+                document.getElementById('adminProdName').value = '';
+                document.getElementById('adminProdCategory').value = '';
+                document.getElementById('adminProdPrice').value = '';
+                document.getElementById('adminProdStock').value = '';
+                document.getElementById('adminProdImage').value = '';
+                document.getElementById('adminProdRecommended').checked = false;
+                document.getElementById('adminProdData').value = '';
+                document.getElementById('adminProductModalTitle').innerText = 'สร้างสินค้าใหม่';
             }
         }
 
-        // ระบบติดตั้งแอปลงบนหน้าจอโทรศัพท์มือถือ (PWA) แบบอัตโนมัติ
-        (function injectProgressiveWebAppManifest() {
-            const manifestConfig = { 
-                "name": "SNI sindy Premium Apps", 
-                "short_name": "SNI sindy", 
-                "start_url": ".", 
-                "display": "standalone", 
-                "background_color": "#ffffff", 
-                "theme_color": "#ffffff",
-                "icons": [{
-                    "src": "https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg", 
-                    "sizes": "192x192", 
-                    "type": "image/jpeg"
-                }] 
+        function adminCloseProductModal() {
+            document.getElementById('adminProductModal').classList.add('hidden');
+        }
+
+        async function adminSaveProduct() {
+            const prodData = {
+                id: document.getElementById('adminProdId').value,
+                name: document.getElementById('adminProdName').value.trim(),
+                category: document.getElementById('adminProdCategory').value.trim(),
+                price: parseFloat(document.getElementById('adminProdPrice').value) || 0,
+                stock: parseInt(document.getElementById('adminProdStock').value) || 0,
+                image: document.getElementById('adminProdImage').value.trim(),
+                recommended: document.getElementById('adminProdRecommended').checked,
+                data: document.getElementById('adminProdData').value.trim()
             };
-            const manifestBlob = new Blob([JSON.stringify(manifestConfig)], { type: 'application/json' });
-            const manifestLink = document.createElement('link');
-            manifestLink.rel = 'manifest';
-            manifestLink.href = URL.createObjectURL(manifestBlob);
-            document.head.appendChild(manifestLink);
+
+            if (!prodData.name || !prodData.category || !prodData.data) {
+                alert('กรุณากรอกข้อมูล ชื่อ, หมวดหมู่ และข้อมูลลับ ให้ครบถ้วน');
+                return;
+            }
+
+            toggleLoadingView(true, "กำลังบันทึกข้อมูลสินค้า...");
+            try {
+                const response = await fetch(GAS_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'admin_save_product', password: storeState.adminPassword, product: prodData }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    redirect: 'follow'
+                });
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    alert(result.message);
+                    adminCloseProductModal();
+                    await refreshAdminProductsData(); // รีเฟรชตารางสินค้า
+                } else {
+                    alert(result.message);
+                }
+            } catch (err) { alert('ล้มเหลวในการบันทึกข้อมูล'); } 
+            finally { toggleLoadingView(false); }
+        }
+
+        async function adminDeleteProduct(productId) {
+            if (!confirm('ยืนยันที่จะลบสินค้านี้ออกจากร้านค้าหรือไม่?')) return;
+            
+            toggleLoadingView(true, "ระบบกำลังลบสินค้า...");
+            try {
+                const response = await fetch(GAS_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'admin_delete_product', password: storeState.adminPassword, productId: productId }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    redirect: 'follow'
+                });
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    await refreshAdminProductsData();
+                } else {
+                    alert(result.message);
+                }
+            } catch (err) { alert('ลบข้อมูลไม่สำเร็จ'); } 
+            finally { toggleLoadingView(false); }
+        }
+
+        // ดึงข้อมูลสินค้าของแอดมินใหม่
+        async function refreshAdminProductsData() {
+            try {
+                const response = await fetch(GAS_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'admin_get_products_full', password: storeState.adminPassword }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    redirect: 'follow'
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    storeState.adminProducts = result.products;
+                    renderAdminProducts();
+                }
+            } catch(e) { console.error('Refresh Failed', e); }
+        }
+
+        // UI Helpers
+        function toggleLoadingView(isShowing, textMessage) {
+            const overlay = document.getElementById('actionLoadingOverlay');
+            if (isShowing) {
+                overlay.classList.remove('hidden');
+                if (textMessage) document.getElementById('loadingText').innerText = textMessage;
+            } else {
+                overlay.classList.add('hidden');
+            }
+        }
+
+        // PWA Setup
+        (function injectProgressiveWebAppManifest() {
+            const manifest = { "name": "SNI sindy Apps", "short_name": "SNI", "start_url": ".", "display": "standalone", "background_color": "#ffffff", "icons": [{"src": "https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg", "sizes": "192x192", "type": "image/jpeg"}] };
+            const link = document.createElement('link'); link.rel = 'manifest'; link.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/json' }));
+            document.head.appendChild(link);
         })();
 
-        // เรียกใช้งานแอปพลิเคชันทันทีเมื่อหน้าเว็บโหลดโครงสร้างเสร็จ
         window.addEventListener('DOMContentLoaded', runStoreApp);
     </script>
 </body>
