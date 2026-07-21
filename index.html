@@ -14,8 +14,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- ไลบรารีถอดรหัส QR Code จากภาพสลิป -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -60,7 +64,7 @@
     <!-- หน้าเว็บหลัก (ลูกค้า) -->
     <main class="pt-24 px-4 max-w-4xl mx-auto space-y-8" id="mainStoreView">
         
-        <!-- แบนเนอร์ (ขนาด 1920x600 - รักษาสัดส่วน 16:5) -->
+        <!-- แบนเนอร์ (ขนาด 1920x600 - สัดส่วน 16:5) -->
         <div id="shopBanner" class="w-full bg-gray-50 border border-gray-100 rounded-2xl bg-cover bg-center shadow-sm" style="aspect-ratio: 1920 / 600;"></div>
 
         <!-- สถิติ -->
@@ -102,9 +106,8 @@
     <footer class="mt-24 py-12 border-t border-gray-100 text-center space-y-4" id="mainStoreFooter">
         <p class="text-xs font-medium tracking-wide text-gray-400">SNI sindy - Premium Application Store</p>
         <div class="flex justify-center items-center gap-4 text-xs text-black font-semibold">
-            <a href="mailto:kingadswolkker@gmail.com" class="hover:underline">ติดต่อแอดมิน</a>
+            <a href="mailto:support@snisindy.com" class="hover:underline">ติดต่อแอดมิน</a>
             <span class="text-gray-200">|</span>
-            <!-- ไอคอนฟันเฟืองสำหรับเข้าสู่ระบบหลังบ้าน -->
             <button onclick="promptAdminLogin()" class="text-gray-400 hover:text-black transition p-1" title="จัดการหลังบ้าน">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
@@ -119,7 +122,6 @@
     <!-- ========================================================================= -->
     <div id="globalPopupModal" class="fixed inset-0 bg-black/70 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
         <div class="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl flex flex-col relative animate-fade-in" id="globalPopupContent">
-            <!-- รูปภาพแบบเต็ม (Object Contain) ป้องกันภาพโดนครอปตัด -->
             <img id="popupDisplayImage" src="" class="w-full h-auto max-h-[50vh] object-contain bg-gray-50 hidden">
             
             <div class="p-6 flex flex-col text-center">
@@ -148,7 +150,6 @@
                 <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" id="detailCategory">หมวดหมู่</div>
                 <h2 class="text-xl font-bold text-black leading-tight" id="detailName">ชื่อสินค้า</h2>
                 
-                <!-- ส่วนรายละเอียดสินค้า -->
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 my-2">
                     <p class="text-xs text-gray-600 whitespace-pre-wrap leading-relaxed" id="detailDescription">ไม่มีรายละเอียดเพิ่มเติม</p>
                 </div>
@@ -197,6 +198,7 @@
                         <p class="text-xs font-bold text-black mt-2">ชื่อบัญชี: คิงแอดส์</p>
                     </div>
                     
+                    <!-- เมื่อผู้ใช้อัปโหลดรูปสลิป ระบบจะอ่าน QR Code และส่งตรวจสอบอัตโนมัติ -->
                     <label class="block w-full text-center bg-black text-white font-bold py-3.5 px-4 rounded-xl text-sm cursor-pointer hover:bg-gray-800 transition active:scale-[0.99] shadow-md">
                         อัปโหลดสลิปเพื่อสั่งซื้อทันที
                         <input type="file" id="slipFileInputButton" accept="image/*" class="hidden">
@@ -205,6 +207,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Canvas สำหรับประมวลผลอ่าน QR Code จากรูปสลิป -->
+    <canvas id="qrCanvas" class="hidden"></canvas>
 
     <!-- ========================================================================= -->
     <!-- ระบบจัดการหลังบ้าน (Admin Dashboard UI) -->
@@ -314,7 +319,7 @@
     <!-- สคริปต์การทำงานของระบบทั้งหมด (JavaScript) -->
     <!-- ========================================================================= -->
     <script>
-        // *** โปรดนำ URL ที่ได้จากการ Deploy รอบล่าสุดมาใส่ตรงนี้ ***
+        // *** นำ URL ที่ได้จากการ Deploy ของคุณมาใส่ตรงนี้ ***
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxcPPHWQecVaTEXiVoDLdzc9qgJMAq2nbIv_WQIz14IkmG53Q7lUEagKXJVX74-3Aw3/exec'; 
 
         let storeState = { 
@@ -322,8 +327,8 @@
             cart: [], 
             adminPassword: '',
             adminProducts: [], 
-            popupsQueue: [], // คิวแสดงป๊อปอัปฝั่งลูกค้า
-            popupsAdminDraft: [], // แบบร่างตอนแก้ไขป๊อปอัป
+            popupsQueue: [], 
+            popupsAdminDraft: [], 
             isProcessing: false 
         };
 
@@ -355,7 +360,7 @@
                         document.getElementById('adminBannerInput').value = result.settings.Banner_URL;
                     }
 
-                    // จัดการแสดงป๊อปอัปแบบ Modal
+                    // เรียกใช้ป๊อปอัปแจ้งเตือน
                     triggerNextPopup();
 
                 } else {
@@ -368,12 +373,11 @@
             }
         }
 
-        // ระบบป๊อปอัปแบบ Modal และจดจำการปิดรายวัน
+        // จัดการ Popups Modal
         function triggerNextPopup() {
-            // ตรวจสอบว่าวันนี้ผู้ใช้เคยกด "ปิดสำหรับวันนี้" ไปแล้วหรือยัง
             const today = new Date().toLocaleDateString();
             if (localStorage.getItem('sni_popup_closed_today') === today) {
-                return; // ไม่ต้องแสดงป๊อปอัปใดๆ
+                return; 
             }
 
             if (storeState.popupsQueue.length > 0) {
@@ -404,20 +408,15 @@
             if (closeForToday) {
                 const today = new Date().toLocaleDateString();
                 localStorage.setItem('sni_popup_closed_today', today);
-                storeState.popupsQueue = []; // ล้างคิวเลย
+                storeState.popupsQueue = [];
             } else {
-                storeState.popupsQueue.shift(); // เอาตัวปัจจุบันออก
+                storeState.popupsQueue.shift();
             }
 
             document.getElementById('globalPopupModal').classList.add('hidden');
-            
-            // รอสักครู่แล้วแสดงป๊อปอัปอันถัดไป (ถ้ามี)
-            setTimeout(() => {
-                triggerNextPopup();
-            }, 300);
+            setTimeout(() => { triggerNextPopup(); }, 300);
         }
 
-        // สถิติและออเดอร์
         function setupDashboardStats(stats) {
             document.getElementById('dashboardSales').innerText = `฿${stats.totalSales.toLocaleString()}`;
             document.getElementById('dashboardTotalStock').innerText = stats.totalStock.toLocaleString();
@@ -477,7 +476,7 @@
             `;
         }
 
-        // หน้าต่างรายละเอียดสินค้า (Product Detail Modal)
+        // หน้าต่างรายละเอียดสินค้า
         function openProductDetail(id) {
             const product = storeState.products.find(p => p.id === id);
             if(!product) return;
@@ -487,7 +486,6 @@
             document.getElementById('detailName').innerText = product.name;
             document.getElementById('detailPrice').innerText = '฿' + product.price.toLocaleString();
             
-            // เพิ่มการแสดง Description สาธารณะ
             const descEl = document.getElementById('detailDescription');
             if (product.description && product.description.trim() !== '') {
                 descEl.innerText = product.description;
@@ -582,12 +580,35 @@
             }
         }
 
+        // แปลงไฟล์ภาพและอ่าน QR Code จากสลิป
         const convertFileToBase64 = file => new Promise((resolve, reject) => {
             const reader = new FileReader(); reader.readAsDataURL(file);
             reader.onload = () => resolve(reader.result); reader.onerror = e => reject(e);
         });
 
-        // อัปโหลดสลิป
+        function decodeQrFromImage(file) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.getElementById('qrCanvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+                    if (code) {
+                        resolve(code.data);
+                    } else {
+                        resolve(null);
+                    }
+                };
+                img.onerror = () => resolve(null);
+                img.src = URL.createObjectURL(file);
+            });
+        }
+
+        // เมื่อผู้ใช้อัปโหลดสลิป
         document.getElementById('slipFileInputButton').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             const email = document.getElementById('customerInputEmail').value.trim();
@@ -599,13 +620,31 @@
             
             if (storeState.isProcessing) return;
             storeState.isProcessing = true;
-            toggleLoadingView(true, "ระบบกำลังตรวจสอบสลิปและโอนสินค้า...");
+            toggleLoadingView(true, "กำลังสแกน QR Code บนสลิป...");
 
             try {
+                // 1. อ่าน QR Code จากรูปสลิป
+                const qrCodeData = await decodeQrFromImage(file);
+                if (!qrCodeData) {
+                    alert('ไม่พบ QR Code บนสลิปการโอนเงิน กรุณาใช้อัปโหลดรูปภาพสลิปที่เห็น QR Code ชัดเจน');
+                    return;
+                }
+
+                toggleLoadingView(true, "กำลังตรวจสอบสลิปและโอนสินค้า...");
+
+                // 2. ส่งข้อมูลไปยัง Backend
                 const base64Data = (await convertFileToBase64(file)).split(',')[1];
                 const response = await fetch(GAS_API_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ action: 'checkout', email: email, cart: storeState.cart.map(i => ({ id: i.id, qty: i.qty })), slipBase64: base64Data, slipMimeType: file.type, totalAmount: totalAmount }),
+                    body: JSON.stringify({ 
+                        action: 'checkout', 
+                        email: email, 
+                        cart: storeState.cart.map(i => ({ id: i.id, qty: i.qty })), 
+                        slipBase64: base64Data, 
+                        slipMimeType: file.type, 
+                        totalAmount: totalAmount,
+                        qrData: qrCodeData 
+                    }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     redirect: 'follow'
                 });
@@ -616,7 +655,7 @@
                     storeState.cart = []; updateCartInterface(); toggleCartModal(false); document.getElementById('customerInputEmail').value = '';
                     await runStoreApp();
                 } else {
-                    alert('ข้อผิดพลาด: ' + result.message);
+                    alert('ข้อผิดพลาดการตรวจสอบสลิป: ' + result.message);
                 }
             } catch (err) {
                 alert('เชื่อมต่อเซิร์ฟเวอร์ขัดข้อง');
@@ -629,7 +668,7 @@
         // ระบบแอดมินหลังบ้าน (Admin System)
         // =====================================================================
         async function promptAdminLogin() {
-            const pass = prompt('ใส่รหัสผ่านหลังบ้าน:');
+            const pass = prompt('ใส่รหัสผ่านหลังบ้าน (ค่าเริ่มต้น: 123456):');
             if (!pass) return;
 
             toggleLoadingView(true, "ตรวจสอบสิทธิ์ผู้ดูแลระบบ...");
@@ -684,7 +723,6 @@
             finally { toggleLoadingView(false); }
         }
 
-        // จัดการ Popups ฝั่งแอดมิน (รองรับรูปภาพ)
         function renderAdminPopups() {
             const container = document.getElementById('adminPopupListContainer');
             if(storeState.popupsAdminDraft.length === 0) {
@@ -728,7 +766,6 @@
             finally { toggleLoadingView(false); }
         }
 
-        // --- ส่วนจัดการสินค้าแอดมิน ---
         function renderAdminProducts() {
             const container = document.getElementById('adminProductListContainer');
             if (storeState.adminProducts.length === 0) {
