@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SNI sindy - ศูนย์รวมแอปพรีเมียมของแท้ราคาถูก</title>
+    
+    <meta name="description" content="ร้านค้าขายแอปพรีเมียม SNI sindy บริการจำหน่ายแคนวาโปร (Canva Pro) แคปคัทโปร (CapCut Pro) และแอปความบันเทิงราคาประหยัด ปลอดภัย ส่งไวด้วยระบบอัตโนมัติผ่านอีเมล">
+    <meta name="keywords" content="ขายแอปพรีเมียม, แคนวาโปร, แคปคัทโปร, Canva Pro ราคาถูก, CapCut Pro แท้, SNI sindy, ซื้อแอปพรีเมียม, แอปพรีเมียมส่งออโต้, คิงแอดส์">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="icon" type="image/jpeg" href="https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg">
+    <link rel="apple-touch-icon" href="https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #111111;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* ซ่อนแถบ Scrollbar สำหรับจุดที่ต้องการสไลด์แนวนอน */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .blur-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .custom-loader {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #000000;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="pb-32 bg-white selection:bg-black selection:text-white">
+
+    <nav class="fixed top-0 left-0 right-0 z-40 border-b border-gray-100 blur-nav">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg" alt="SNI sindy Logo" class="w-9 h-9 rounded-full object-cover border border-gray-200">
+                <span class="font-bold text-base tracking-tight text-black">SNI sindy</span>
+            </div>
+            <button onclick="toggleCartModal(true)" class="relative p-2.5 text-gray-900 hover:bg-gray-50 rounded-full transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4m-3 11.25h16.5m-16.5 0a2.25 2.25 0 01-2.25-2.25V8.528c0-.83.57-1.543 1.391-1.685l11.57-2.02a2.25 2.25 0 012.44 2.23v8.122A2.25 2.25 0 0121.75 21M4.5 21h16.5" />
+                </svg>
+                <span id="globalCartCount" class="absolute top-1 right-1 bg-black text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <div id="actionLoadingOverlay" class="fixed inset-0 bg-white/90 z-50 flex flex-col items-center justify-center hidden">
+        <div class="custom-loader mb-3"></div>
+        <p class="text-xs font-medium text-gray-500 tracking-wider">กำลังติดต่อระบบฐานข้อมูล...</p>
+    </div>
+
+    <main class="pt-24 px-4 max-w-4xl mx-auto space-y-8">
+        
+        <div id="shopBanner" class="w-full h-44 bg-gray-50 border border-gray-100 rounded-2xl bg-cover bg-center transition-all duration-500"></div>
+
+        <section class="grid grid-cols-3 gap-3">
+            <div class="p-4 bg-gray-50/50 border border-gray-100 rounded-xl text-center">
+                <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">ยอดขายร้าน</p>
+                <p id="dashboardSales" class="text-base font-bold text-black mt-1">฿0</p>
+            </div>
+            <div class="p-4 bg-gray-50/50 border border-gray-100 rounded-xl text-center">
+                <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">สต๊อกทั้งหมด</p>
+                <p id="dashboardTotalStock" class="text-base font-bold text-black mt-1">0</p>
+            </div>
+            <div class="p-4 bg-gray-50/50 border border-gray-100 rounded-xl text-center">
+                <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">สินค้าพร้อมขาย</p>
+                <p id="dashboardAvailableStock" class="text-base font-bold text-black mt-1">0</p>
+            </div>
+        </section>
+
+        <div id="dynamicPopupList" class="space-y-2"></div>
+
+        <section class="bg-gray-50/40 border border-gray-100 rounded-xl p-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">รายการสั่งซื้อล่าสุดของร้าน</h3>
+            <div id="recentOrdersFeed" class="space-y-2 max-h-24 overflow-y-auto no-scrollbar text-xs text-gray-600">
+                <p class="text-gray-400 italic">กำลังอัปเดตข้อมูลล่าสุด...</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-sm font-bold uppercase tracking-widest border-l-2 border-black pl-3 mb-4 text-black">สินค้าแนะนำยอดนิยม</h2>
+            <div id="recommendedContainer" class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                </div>
+        </section>
+
+        <section class="space-y-6">
+            <h2 class="text-sm font-bold uppercase tracking-widest border-l-2 border-black pl-3 text-black">หมวดหมู่สินค้าทั้งหมด</h2>
+            <div id="categorizedProductsContainer" class="space-y-8">
+                </div>
+        </section>
+    </main>
+
+    <footer class="mt-24 py-12 border-t border-gray-100 text-center space-y-3">
+        <p class="text-xs font-medium tracking-wide text-gray-400">SNI sindy - Premium Application Store</p>
+        <div class="flex justify-center gap-4 text-xs text-black font-semibold">
+            <a href="mailto:support@snisindy.com" class="hover:underline">ติดต่อแอดมิน (Email)</a>
+            <span class="text-gray-200">|</span>
+            <a href="#" onclick="alert('ชื่อบัญชีธนาคารรับชำระเงินของร้านคือ คิงแอดส์ เท่านั้น ตรวจสอบก่อนโอนเงินทุกครั้ง')" class="hover:underline">ข้อมูลความปลอดภัย</a>
+        </div>
+    </footer>
+
+    <div id="cartModalWrapper" class="fixed inset-0 bg-black/40 z-50 hidden transition-opacity duration-300">
+        <div class="absolute bottom-0 left-0 right-0 max-w-xl mx-auto bg-white rounded-t-3xl p-6 h-[85vh] flex flex-col shadow-2xl transition-transform duration-300 translate-y-full" id="cartContentPanel">
+            
+            <div class="flex justify-between items-center pb-4 border-b border-gray-100">
+                <div>
+                    <h3 class="text-lg font-bold text-black">ตะกร้าสินค้าของคุณ</h3>
+                    <p class="text-xs text-gray-400 mt-0.5">โปรดตรวจสอบรายการสินค้าก่อนอัปโหลดสลิป</p>
+                </div>
+                <button onclick="toggleCartModal(false)" class="p-2 hover:bg-gray-100 rounded-full text-gray-400 hover:text-black transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <div id="cartItemsList" class="flex-1 overflow-y-auto no-scrollbar py-4 space-y-3">
+                </div>
+
+            <div class="border-t border-gray-100 pt-4 space-y-4">
+                <div class="flex justify-between items-center text-black font-bold">
+                    <span class="text-sm font-medium text-gray-500">ยอดชำระสุทธิ</span>
+                    <span id="cartTotalPriceLabel" class="text-xl">฿0</span>
+                </div>
+
+                <div id="checkoutFormBlock" class="space-y-3">
+                    <input type="email" id="customerInputEmail" placeholder="ระบุอีเมลสำหรับรับข้อมูลรหัส/ลิงก์สินค้า" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-medium focus:outline-none focus:bg-white focus:border-black transition" required>
+                    
+                    <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 flex flex-col items-center">
+                        <img src="https://s.imgz.io/2026/07/15/IMG_75242612165b6fd16c31.jpeg" alt="QR Code Shop Payments" class="w-36 h-36 object-cover rounded-lg border border-gray-200 shadow-sm">
+                        <p class="text-xs font-bold text-black mt-2">ชื่อบัญชีร้าน: คิงแอดส์</p>
+                        <p class="text-[10px] text-gray-400 mt-0.5">สแกนคิวอาร์ด้านบนด้วยแอปธนาคารของคุณตามยอดรวม</p>
+                    </div>
+
+                    <label class="block w-full text-center bg-black text-white font-bold py-3.5 px-4 rounded-xl text-sm cursor-pointer hover:bg-gray-900 transition active:scale-[0.99]">
+                        อัปโหลดรูปภาพสลิปเพื่อสั่งซื้อทันที
+                        <input type="file" id="slipFileInputButton" accept="image/*" class="hidden">
+                    </label>
+                    <p class="text-[10px] text-center text-gray-400">ระบบอัจฉริยะจะสแกนคิวอาร์โค้ดบนสลิปและเช็คยอดเงินอัตโนมัติ</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // บรรทัดที่สำคัญที่สุด: นำลิงก์ Web App จาก Google Apps Script (Deployment URL) มาวางที่นี่
+        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbw6wJvuzJwExZRgNRY9LVmH9s-i6rY2EtmQ_GtvDhx9hRRZ73eceSiPK4GCb0q3hl8/exec'; 
+
+        let storeState = {
+            products: [],
+            cart: [],
+            settings: {},
+            isCheckoutProcessing: false
+        };
+
+        // เริ่มโหลดแอปพลิเคชันและดึงข้อมูลเมื่อเข้าหน้าเว็บ
+        async function runStoreApp() {
+            toggleLoadingView(true);
+            try {
+                const response = await fetch(GAS_API_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({ action: 'init' })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    storeState.products = result.products;
+                    storeState.settings = result.settings;
+                    
+                    setupDashboardStats(result.stats);
+                    setupPopups(result.popups);
+                    setupRecentOrders(result.recentBuys);
+                    renderProductDisplay();
+                    
+                    if (storeState.settings.Banner_URL) {
+                        document.getElementById('shopBanner').style.backgroundImage = `url('${storeState.settings.Banner_URL}')`;
+                    }
+                } else {
+                    alert('ไม่สามารถโหลดข้อมูลระบบได้: ' + result.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('เกิดปัญหาระบบขาดการเชื่อมต่อกับหลังบ้าน กรุณาลองใหม่อีกครั้ง');
+            } finally {
+                toggleLoadingView(false);
+            }
+        }
+
+        // จัดการข้อมูลแผงควบคุมสถิติ
+        function setupDashboardStats(stats) {
+            document.getElementById('dashboardSales').innerText = `฿${stats.totalSales.toLocaleString()}`;
+            document.getElementById('dashboardTotalStock').innerText = stats.totalStock.toLocaleString();
+            
+            const available = storeState.products.reduce((acc, p) => acc + p.stock, 0);
+            document.getElementById('dashboardAvailableStock').innerText = available.toLocaleString();
+        }
+
+        // แสดงผลประกาศริบบิ้นด้านบน (Popups) สามารถมีหลายอันได้
+        function setupPopups(popups) {
+            const container = document.getElementById('dynamicPopupList');
+            container.innerHTML = '';
+            
+            if(popups.length === 0) return;
+            
+            popups.forEach(message => {
+                const div = document.createElement('div');
+                div.className = "p-3.5 bg-gray-50 border border-gray-100 text-xs font-medium text-black rounded-xl flex justify-between items-center shadow-sm animate-fade-in";
+                div.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-1.5 h-1.5 bg-black rounded-full"></span>
+                        <span>${message}</span>
+                    </div>
+                    <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-black font-bold text-sm px-1">&times;</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // แสดงฟีดรายการซื้อล่าสุด
+        function setupRecentOrders(recentBuys) {
+            const container = document.getElementById('recentOrdersFeed');
+            if (!recentBuys || recentBuys.length === 0) {
+                container.innerHTML = '<p class="text-gray-400 italic">ไม่มีรายการคำสั่งซื้อล่าสุดในขณะนี้</p>';
+                return;
+            }
+            
+            container.innerHTML = recentBuys.map(order => `
+                <div class="flex justify-between items-center py-1 border-b border-gray-50 last:border-0">
+                    <span class="font-mono text-gray-400">ออเดอร์ #${order.orderId} ชำระเงินสำเร็จ</span>
+                    <span class="font-bold text-black">฿${order.amount} (${order.time} น.)</span>
+                </div>
+            `).join('');
+        }
+
+        // แสดงข้อมูลการ์ดสินค้าทั้งหมดแยกตามส่วนและหมวดหมู่
+        function renderProductDisplay() {
+            const recContainer = document.getElementById('recommendedContainer');
+            const catContainer = document.getElementById('categorizedProductsContainer');
+            
+            recContainer.innerHTML = '';
+            catContainer.innerHTML = '';
+            
+            // แยกกลุ่มข้อมูลสินค้าตามหมวดหมู่
+            const categoriesMap = {};
+            let hasRecommended = false;
+
+            storeState.products.forEach(product => {
+                // จัดการข้อมูลหมวดหมู่สินค้า
+                if (!categoriesMap[product.category]) {
+                    categoriesMap[product.category] = [];
+                }
+                categoriesMap[product.category].push(product);
+
+                // ตรวจสอบสินค้าแนะนำ
+                if (product.recommended) {
+                    hasRecommended = true;
+                    const recCard = document.createElement('div');
+                    recCard.className = "w-48 bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm flex flex-col flex-shrink-0";
+                    recCard.innerHTML = `
+                        <div class="h-32 bg-gray-50 relative">
+                            ${product.image ? `<img src="${product.image}" class="w-full h-full object-cover">` : ''}
+                            ${product.stock <= 0 ? `<div class="absolute inset-0 bg-white/80 backdrop-blur-[1px] flex items-center justify-center text-xs font-bold text-red-500">สินค้าหมดแล้ว</div>` : ''}
+                        </div>
+                        <div class="p-3 flex flex-col flex-1 space-y-1">
+                            <span class="text-[9px] font-bold uppercase tracking-wider text-gray-400">${product.category}</span>
+                            <h4 class="font-bold text-xs text-black truncate">${product.name}</h4>
+                            <div class="pt-2 mt-auto flex justify-between items-center">
+                                <span class="font-bold text-xs text-black">฿${product.price}</span>
+                                <button onclick="addItemToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center font-bold text-xs hover:bg-gray-800 transition disabled:bg-gray-200 disabled:text-gray-400">+</button>
+                            </div>
+                        </div>
+                    `;
+                    recContainer.appendChild(recCard);
+                }
+            });
+
+            if (!hasRecommended) {
+                recContainer.innerHTML = '<p class="text-xs text-gray-400 italic">ไม่มีสินค้าแนะนำในขณะนี้</p>';
+            }
+
+            // แสดงรายการสินค้าแยกตามหมวดหมู่
+            Object.keys(categoriesMap).forEach(categoryName => {
+                const categorySection = document.createElement('div');
+                categorySection.className = "space-y-3";
+                
+                categorySection.innerHTML = `
+                    <h3 class="text-xs font-bold uppercase text-gray-400 tracking-widest mb-2">${categoryName}</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="cat-grid-${categoryName.replace(/\s+/g, '-')}"></div>
+                `;
+                catContainer.appendChild(categorySection);
+                
+                const gridId = `cat-grid-${categoryName.replace(/\s+/g, '-')}`;
+                const gridElement = document.getElementById(gridId);
+                
+                categoriesMap[categoryName].forEach(product => {
+                    const prodCard = document.createElement('div');
+                    prodCard.className = "bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm flex flex-col";
+                    prodCard.innerHTML = `
+                        <div class="h-28 bg-gray-50 relative">
+                            ${product.image ? `<img src="${product.image}" class="w-full h-full object-cover">` : ''}
+                            ${product.stock <= 0 ? `<div class="absolute inset-0 bg-white/80 backdrop-blur-[1px] flex items-center justify-center text-xs font-bold text-red-500">สินค้าหมด</div>` : ''}
+                        </div>
+                        <div class="p-3 flex flex-col flex-1 space-y-1">
+                            <h4 class="font-bold text-xs text-black truncate">${product.name}</h4>
+                            <div class="pt-2 mt-auto flex justify-between items-center">
+                                <span class="font-bold text-xs text-black">฿${product.price}</span>
+                                <button onclick="addItemToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center font-bold text-xs hover:bg-gray-800 transition disabled:bg-gray-200 disabled:text-gray-400">+</button>
+                            </div>
+                        </div>
+                    `;
+                    gridElement.appendChild(prodCard);
+                });
+            });
+        }
+
+        // ระบบเพิ่มของเข้าตะกร้าสินค้า
+        function addItemToCart(id) {
+            const product = storeState.products.find(p => p.id === id.toString());
+            if (!product || product.stock <= 0) return;
+
+            const cartItem = storeState.cart.find(item => item.id === id.toString());
+            if (cartItem) {
+                if (cartItem.qty < product.stock) {
+                    cartItem.qty++;
+                } else {
+                    alert('ไม่สามารถเลือกสินค้าเพิ่มได้เนื่องจากจำนวนสินค้าเกินจากสต๊อกคงเหลือในร้าน');
+                    return;
+                }
+            } else {
+                storeState.cart.push({ ...product, qty: 1 });
+            }
+            refreshCartState();
+        }
+
+        // อัปเดตรีเฟรชสถานะตะกร้าสินค้า
+        function refreshCartState() {
+            const totalItemsCount = storeState.cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalAmountPrice = storeState.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            document.getElementById('globalCartCount').innerText = totalItemsCount;
+            document.getElementById('cartTotalPriceLabel').innerText = `฿${totalAmountPrice.toLocaleString()}`;
+
+            const listContainer = document.getElementById('cartItemsList');
+            if (storeState.cart.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <p class="text-xs font-medium text-gray-400">ไม่มีรายการสินค้าในตะกร้าของคุณ</p>
+                    </div>
+                `;
+                return;
+            }
+
+            listContainer.innerHTML = storeState.cart.map((item, idx) => `
+                <div class="flex justify-between items-center p-3 bg-gray-50 border border-gray-100 rounded-xl">
+                    <div class="flex-1 min-w-0 pr-3">
+                        <h5 class="font-bold text-xs text-black truncate">${item.name}</h5>
+                        <p class="text-[10px] text-gray-400 mt-0.5">฿${item.price.toLocaleString()} x ${item.qty}</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="font-bold text-xs text-black">฿${(item.price * item.qty).toLocaleString()}</span>
+                        <button onclick="removeItemFromCart(${idx})" class="text-gray-300 hover:text-black font-bold text-base px-1">&times;</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeItemFromCart(index) {
+            storeState.cart.splice(index, 1);
+            refreshCartState();
+        }
+
+        // จัดการเปิด/ปิดหน้าต่างตัวตะกร้าสินค้า
+        function toggleCartModal(open) {
+            const wrapper = document.getElementById('cartModalWrapper');
+            const panel = document.getElementById('cartContentPanel');
+            
+            if (open) {
+                wrapper.classList.remove('hidden');
+                setTimeout(() => {
+                    panel.classList.remove('translate-y-full');
+                }, 10);
+            } else {
+                panel.classList.add('translate-y-full');
+                setTimeout(() => {
+                    wrapper.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // เปลี่ยนไฟล์ภาพสลิปให้อยู่ในรูปแบบ Base64 Text เพื่อส่งค่าไปยัง API
+        const parseFileToBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+
+        // ดักจับและทำงานเมื่อผู้ใช้งานอัปโหลดไฟล์รูปภาพสลิป (Auto-Checkout) ป้องกันการกดซ้ำ
+        document.getElementById('slipFileInputButton').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            const emailInput = document.getElementById('customerInputEmail').value.trim();
+            const totalAmount = storeState.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            if (storeState.cart.length === 0) {
+                alert('โปรดเลือกสินค้าอย่างน้อย 1 รายการลงตะกร้าก่อนดำเนินการชำระเงิน');
+                this.value = '';
+                return;
+            }
+            if (!emailInput || !validateEmailFormat(emailInput)) {
+                alert('โปรดป้อนอีเมลที่ถูกต้องของคุณเพื่อรับรายละเอียดข้อมูลการจัดส่งสินค้าพรีเมียม');
+                this.value = '';
+                return;
+            }
+            if (!file) return;
+            
+            // ล็อคป้องกันปุ่มทำงานซ้ำซ้อนซ้อน (Anti-double click constraint)
+            if (storeState.isCheckoutProcessing) return;
+            storeState.isCheckoutProcessing = true;
+            toggleLoadingView(true);
+
+            try {
+                const base64Content = await parseFileToBase64(file);
+                const base64Data = base64Content.split(',')[1];
+                const mimeType = file.type;
+
+                const orderPayload = {
+                    action: 'checkout',
+                    email: emailInput,
+                    cart: storeState.cart.map(item => ({ id: item.id, qty: item.qty })),
+                    slipBase64: base64Data,
+                    slipMimeType: mimeType,
+                    totalAmount: totalAmount
+                };
+
+                const response = await fetch(GAS_API_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(orderPayload)
+                });
+                
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    alert('ทำรายการสั่งซื้อสำเร็จเสร็จสิ้น! ' + result.message);
+                    
+                    // ล้างข้อมูลหลังประมวลผลเสร็จสิ้น
+                    storeState.cart = [];
+                    refreshCartState();
+                    toggleCartModal(false);
+                    document.getElementById('customerInputEmail').value = '';
+                    
+                    // โหลดข้อมูลภาพรวมร้านใหม่เพื่อรีเฟรชยอดขายและสต๊อกสินค้าล่าสุด
+                    await runStoreApp();
+                } else {
+                    alert('คำสั่งซื้อถูกปฏิเสธ: ' + result.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('เกิดข้อผิดพลาดขั้นรุนแรงระหว่างเชื่อมต่อส่งข้อมูล โปรดตรวจสอบความเสถียรของอินเทอร์เน็ต');
+            } finally {
+                this.value = ''; // เคลียร์ไฟล์เก่าออก
+                storeState.isCheckoutProcessing = false;
+                toggleLoadingView(false);
+            }
+        });
+
+        function validateEmailFormat(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        function toggleLoadingView(show) {
+            const el = document.getElementById('actionLoadingOverlay');
+            if (show) el.classList.remove('hidden');
+            else el.classList.add('hidden');
+        }
+
+        // ระบบจำลองแปลงเว็บแอปพลิเคชันให้เป็น Manifest ไฟล์เดียวรองรับฟีเจอร์ PWA (Add to Home Screen)
+        (function injectDynamicPWAManifest() {
+            const pwaManifestObj = {
+                "name": "SNI sindy Premium Apps Store",
+                "short_name": "SNI sindy",
+                "start_url": window.location.href,
+                "display": "standalone",
+                "background_color": "#ffffff",
+                "theme_color": "#ffffff",
+                "icons": [{
+                    "src": "https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg",
+                    "sizes": "192x192",
+                    "type": "image/jpeg"
+                }]
+            };
+            const blob = new Blob([JSON.stringify(pwaManifestObj)], { type: 'application/json' });
+            const manifestUrl = URL.createObjectURL(blob);
+            const linkTag = document.createElement('link');
+            linkTag.rel = 'manifest';
+            linkTag.href = manifestUrl;
+            document.head.appendChild(linkTag);
+        })();
+
+        // เรียกใช้งานฟังก์ชันเริ่มต้นเมื่อเบราว์เซอร์พร้อมทำงาน
+        window.addEventListener('DOMContentLoaded', runStoreApp);
+    </script>
+</body>
+</html>
