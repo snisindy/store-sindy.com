@@ -88,7 +88,7 @@
         <div class="flex justify-center gap-4 text-xs text-black font-semibold">
             <a href="mailto:support@snisindy.com" class="hover:underline">ติดต่อแอดมิน</a>
             <span class="text-gray-200">|</span>
-            <a href="#" onclick="alert('ชื่อบัญชีธนาคารรับชำระเงิน: คิงแอดส์')" class="hover:underline">ข้อมูลความปลอดภัย</a>
+            <a href="#" onclick="alert('ชื่อบัญชีธนาคารรับชำระเงิน: คิงแอดส์ เท่านั้น')" class="hover:underline">ข้อมูลความปลอดภัย</a>
         </div>
     </footer>
 
@@ -128,7 +128,10 @@
     </div>
 
     <script>
-        // *** วาง URL เว็บแอปใหม่ของคุณที่นี่ (ต้องลงท้ายด้วย /exec) ***
+        // =========================================================================
+        // กรุณานำ URL ที่ได้จากการ Deploy ของ Google Apps Script มาวางแทนที่ด้านล่างนี้
+        // (URL ต้องลงท้ายด้วยคำว่า /exec เสมอ)
+        // =========================================================================
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzgMZa2XfTbVwP_khG9GoKr0IeVPB-H7tFgRlHbsaC3mKiZydHgtzF8pSFqs2rY8sTj/exec'; 
 
         let storeState = { products: [], cart: [], isProcessing: false };
@@ -136,11 +139,12 @@
         async function runStoreApp() {
             toggleLoadingView(true, "กำลังโหลดข้อมูลร้านค้า...");
             try {
-                // ใช้ text/plain เพื่อลดปัญหา CORS Preflight ใน GAS
+                // แก้ไขปัญหาเรื่อง CORS ด้วยเทคนิค text/plain และ redirect follow
                 const response = await fetch(GAS_API_URL, {
                     method: 'POST',
                     body: JSON.stringify({ action: 'init' }),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    redirect: 'follow'
                 });
                 
                 const result = await response.json();
@@ -286,6 +290,7 @@
             reader.onload = () => res(reader.result); reader.onerror = e => rej(e);
         });
 
+        // ดักจับและประมวลผลทันทีเมื่อผู้ใช้งานอัปโหลดรูปภาพ
         document.getElementById('slipFileInputButton').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             const email = document.getElementById('customerInputEmail').value.trim();
@@ -304,7 +309,8 @@
                 const res = await fetch(GAS_API_URL, {
                     method: 'POST',
                     body: JSON.stringify({ action: 'checkout', email, cart: storeState.cart.map(i => ({id: i.id, qty: i.qty})), slipBase64: base64Data, slipMimeType: file.type, totalAmount }),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    redirect: 'follow'
                 });
                 
                 const result = await res.json();
@@ -330,12 +336,14 @@
             if(text) document.getElementById('loadingText').innerText = text;
         }
 
+        // ระบบฉีด PWA Manifest เพื่อให้รองรับ Add to Home Screen แบบจำลอง
         (function injectPWA() {
             const m = { "name": "SNI sindy", "start_url": ".", "display": "standalone", "background_color": "#ffffff", "icons": [{"src": "https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg", "sizes": "192x192", "type": "image/jpeg"}] };
             const l = document.createElement('link'); l.rel = 'manifest'; l.href = URL.createObjectURL(new Blob([JSON.stringify(m)], {type: 'application/json'}));
             document.head.appendChild(l);
         })();
 
+        // รันฟังก์ชันตอนโหลดหน้าเว็บเสร็จ
         window.addEventListener('DOMContentLoaded', runStoreApp);
     </script>
 </body>
