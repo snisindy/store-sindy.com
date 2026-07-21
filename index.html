@@ -39,7 +39,7 @@
     <nav class="fixed top-0 left-0 right-0 z-40 border-b border-gray-100 blur-nav">
         <div class="max-w-4xl mx-auto px-4 h-16 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <img src="https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg" alt="SNI sindy Logo" class="w-9 h-9 rounded-full object-cover border border-gray-200">
+                <img src="https://s.imgz.io/2026/07/21/IMG_6481018b99c0e19bc4b2.jpeg" alt="SNI sindy Logo" class="w-9 h-9 rounded-full object-cover border border-gray-200 shadow-sm">
                 <span class="font-bold text-base tracking-tight text-black">SNI sindy</span>
             </div>
             <button onclick="toggleCartModal(true)" class="relative p-2.5 text-gray-900 hover:bg-gray-50 rounded-full transition">
@@ -59,8 +59,10 @@
 
     <!-- หน้าเว็บหลัก (ลูกค้า) -->
     <main class="pt-24 px-4 max-w-4xl mx-auto space-y-8" id="mainStoreView">
-        <div id="shopBanner" class="w-full h-44 bg-gray-50 border border-gray-100 rounded-2xl bg-cover bg-center transition-all duration-500"></div>
+        <!-- แบนเนอร์ -->
+        <div id="shopBanner" class="w-full h-44 bg-gray-50 border border-gray-100 rounded-2xl bg-cover bg-center transition-all duration-500 shadow-sm"></div>
 
+        <!-- สถิติ -->
         <section class="grid grid-cols-3 gap-3">
             <div class="p-4 bg-gray-50/50 border border-gray-100 rounded-xl text-center">
                 <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">ยอดขายร้าน</p>
@@ -71,41 +73,78 @@
                 <p id="dashboardTotalStock" class="text-base font-bold text-black mt-1">0</p>
             </div>
             <div class="p-4 bg-gray-50/50 border border-gray-100 rounded-xl text-center">
-                <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">สินค้าพร้อมขาย</p>
+                <p class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">พร้อมขาย</p>
                 <p id="dashboardAvailableStock" class="text-base font-bold text-black mt-1">0</p>
             </div>
         </section>
 
-        <div id="dynamicPopupList" class="space-y-2"></div>
+        <!-- Popups แจ้งเตือนรองรับรูปภาพ -->
+        <div id="dynamicPopupList" class="space-y-3"></div>
 
+        <!-- ออเดอร์ล่าสุด -->
         <section class="bg-gray-50/40 border border-gray-100 rounded-xl p-4">
             <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">รายการสั่งซื้อล่าสุด</h3>
             <div id="recentOrdersFeed" class="space-y-2 max-h-24 overflow-y-auto no-scrollbar text-xs text-gray-600"></div>
         </section>
 
+        <!-- สินค้าแนะนำ -->
         <section>
             <h2 class="text-sm font-bold uppercase tracking-widest border-l-2 border-black pl-3 mb-4 text-black">สินค้าแนะนำ</h2>
-            <div id="recommendedContainer" class="flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+            <div id="recommendedContainer" class="flex gap-4 overflow-x-auto no-scrollbar pb-2 pt-1 px-1"></div>
         </section>
 
-        <section class="space-y-6">
+        <!-- สินค้าทั้งหมด -->
+        <section class="space-y-6 pt-2">
             <h2 class="text-sm font-bold uppercase tracking-widest border-l-2 border-black pl-3 text-black">สินค้าทั้งหมด</h2>
-            <div id="categorizedProductsContainer" class="space-y-8"></div>
+            <div id="categorizedProductsContainer" class="space-y-8 px-1"></div>
         </section>
     </main>
 
-    <!-- ส่วนท้ายเว็บ -->
-    <footer class="mt-24 py-12 border-t border-gray-100 text-center space-y-3" id="mainStoreFooter">
+    <!-- ส่วนท้ายเว็บ (Footer) -->
+    <footer class="mt-24 py-12 border-t border-gray-100 text-center space-y-4" id="mainStoreFooter">
         <p class="text-xs font-medium tracking-wide text-gray-400">SNI sindy - Premium Application Store</p>
-        <div class="flex justify-center gap-4 text-xs text-black font-semibold">
+        <div class="flex justify-center items-center gap-4 text-xs text-black font-semibold">
             <a href="mailto:support@snisindy.com" class="hover:underline">ติดต่อแอดมิน</a>
             <span class="text-gray-200">|</span>
-            <a href="javascript:void(0)" onclick="promptAdminLogin()" class="text-gray-400 hover:text-black hover:underline">จัดการหลังบ้าน (ผู้ดูแล)</a>
+            <!-- เปลี่ยนเป็นไอคอนฟันเฟืองสำหรับเข้าหลังบ้าน -->
+            <button onclick="promptAdminLogin()" class="text-gray-400 hover:text-black transition p-1" title="จัดการหลังบ้าน">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+            </button>
         </div>
     </footer>
 
+    <!-- หน้าต่างรายละเอียดสินค้า (คลิกดูภาพใหญ่) -->
+    <div id="productDetailModal" class="fixed inset-0 bg-black/60 z-[55] hidden flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl flex flex-col transform transition-transform duration-300 scale-95 opacity-0" id="productDetailContent">
+            <!-- ส่วนรูปภาพ -->
+            <div class="h-64 bg-gray-100 relative">
+                <img id="detailImage" src="" class="w-full h-full object-cover">
+                <button onclick="closeProductDetail()" class="absolute top-3 right-3 bg-white/80 text-black hover:bg-white p-2 rounded-full backdrop-blur transition shadow-sm">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <!-- ส่วนรายละเอียด -->
+            <div class="p-5 space-y-3">
+                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" id="detailCategory">หมวดหมู่</div>
+                <h2 class="text-xl font-bold text-black leading-tight" id="detailName">ชื่อสินค้า</h2>
+                
+                <div class="flex justify-between items-end pt-2">
+                    <span class="text-2xl font-bold text-black" id="detailPrice">฿0</span>
+                    <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded" id="detailStock">เหลือ 0 ชิ้น</span>
+                </div>
+                
+                <button id="detailAddToCartBtn" class="w-full py-3.5 bg-black text-white rounded-xl font-bold mt-4 hover:bg-gray-800 transition shadow-md active:scale-[0.98]">
+                    เพิ่มลงตะกร้า
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- หน้าต่างตะกร้าสินค้า -->
-    <div id="cartModalWrapper" class="fixed inset-0 bg-black/40 z-50 hidden transition-opacity duration-300">
+    <div id="cartModalWrapper" class="fixed inset-0 bg-black/40 z-[60] hidden transition-opacity duration-300">
         <div class="absolute bottom-0 left-0 right-0 max-w-xl mx-auto bg-white rounded-t-3xl p-6 h-[85vh] flex flex-col shadow-2xl transition-transform duration-300 translate-y-full" id="cartContentPanel">
             
             <div class="flex justify-between items-center pb-4 border-b border-gray-100">
@@ -127,14 +166,14 @@
                 </div>
 
                 <div class="space-y-3">
-                    <input type="email" id="customerInputEmail" placeholder="ระบุอีเมลสำหรับรับรหัสสินค้า" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:border-black transition" required>
+                    <input type="email" id="customerInputEmail" placeholder="ระบุอีเมลสำหรับรับรหัสสินค้า" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-black transition" required>
                     
                     <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 flex flex-col items-center">
                         <img src="https://s.imgz.io/2026/07/15/IMG_75242612165b6fd16c31.jpeg" alt="QR Code" class="w-36 h-36 object-cover rounded-lg border shadow-sm">
                         <p class="text-xs font-bold text-black mt-2">ชื่อบัญชี: คิงแอดส์</p>
                     </div>
                     
-                    <label class="block w-full text-center bg-black text-white font-bold py-3.5 px-4 rounded-xl text-sm cursor-pointer hover:bg-gray-900 transition">
+                    <label class="block w-full text-center bg-black text-white font-bold py-3.5 px-4 rounded-xl text-sm cursor-pointer hover:bg-gray-800 transition active:scale-[0.99] shadow-md">
                         อัปโหลดสลิปเพื่อสั่งซื้อทันที
                         <input type="file" id="slipFileInputButton" accept="image/*" class="hidden">
                     </label>
@@ -144,9 +183,9 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- ระบบจัดการหลังบ้าน (Admin Dashboard UI) แบบเต็มรูป -->
+    <!-- ระบบจัดการหลังบ้าน (Admin Dashboard UI) -->
     <!-- ========================================================================= -->
-    <div id="adminDashboardView" class="fixed inset-0 bg-white z-[45] overflow-y-auto hidden">
+    <div id="adminDashboardView" class="fixed inset-0 bg-white z-[70] overflow-y-auto hidden">
         <div class="max-w-4xl mx-auto px-4 py-8 pb-32">
             <div class="flex justify-between items-center mb-8 border-b pb-4">
                 <h1 class="text-2xl font-bold text-black">ศูนย์ควบคุมหลังบ้าน</h1>
@@ -163,12 +202,13 @@
                     </div>
                 </section>
 
-                <!-- ตั้งค่า Popups -->
+                <!-- ตั้งค่า Popups (ข้อความ + รูปภาพ) -->
                 <section class="bg-gray-50 p-6 rounded-xl border border-gray-100">
                     <h2 class="text-sm font-bold uppercase tracking-widest text-black mb-4">ระบบข้อความแจ้งเตือน (Pop-up)</h2>
-                    <div id="adminPopupListContainer" class="space-y-2 mb-4"></div>
+                    <div id="adminPopupListContainer" class="space-y-3 mb-4"></div>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <input type="text" id="adminNewPopupInput" placeholder="พิมพ์ประกาศแจ้งเตือนใหม่..." class="flex-1 px-4 py-2 border rounded-lg text-sm focus:border-black">
+                        <input type="text" id="adminNewPopupImage" placeholder="ลิงก์รูปภาพ (เว้นว่างได้)" class="flex-1 px-4 py-2 border rounded-lg text-sm focus:border-black">
                         <button onclick="adminAddPopup()" class="px-6 py-2 bg-gray-800 text-white text-sm font-bold rounded-lg">เพิ่มข้อความ</button>
                     </div>
                     <button onclick="adminSavePopupsToServer()" class="w-full mt-4 py-3 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-800 transition">อัปเดตระบบแจ้งเตือนทั้งหมดลงฐานข้อมูล</button>
@@ -180,15 +220,14 @@
                         <h2 class="text-sm font-bold uppercase tracking-widest text-black">ระบบจัดการสต๊อกและสินค้า</h2>
                         <button onclick="adminOpenProductModal()" class="px-5 py-2 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-800">+ เพิ่มสินค้าใหม่</button>
                     </div>
-                    <!-- รายการสินค้าจะแสดงที่นี่ -->
                     <div id="adminProductListContainer" class="space-y-3"></div>
                 </section>
             </div>
         </div>
     </div>
 
-    <!-- หน้าต่าง (Modal) แบบฟอร์มเพิ่ม/แก้ไขสินค้า -->
-    <div id="adminProductModal" class="fixed inset-0 bg-black/60 z-[60] hidden flex items-center justify-center p-4">
+    <!-- หน้าต่าง (Modal) แบบฟอร์มเพิ่ม/แก้ไขสินค้าของแอดมิน -->
+    <div id="adminProductModal" class="fixed inset-0 bg-black/60 z-[80] hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl flex flex-col max-h-[90vh]">
             <h3 class="font-bold text-xl mb-4 text-black border-b pb-3" id="adminProductModalTitle">แก้ไขข้อมูลสินค้า</h3>
             
@@ -228,7 +267,7 @@
 
                 <div>
                     <label class="text-xs font-bold text-red-500 uppercase tracking-wider block mb-1">ข้อมูลลับ (ส่งให้ลูกค้าเมื่อชำระเงิน)</label>
-                    <textarea id="adminProdData" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm h-28 focus:border-black outline-none" placeholder="ใส่รหัสบัตรเติมเงิน ลิงก์เข้าทีม หรือข้อมูลที่ต้องการส่งให้ลูกค้าผ่านอีเมล..."></textarea>
+                    <textarea id="adminProdData" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm h-28 focus:border-black outline-none" placeholder="ใส่รหัสบัตรเติมเงิน ลิงก์เข้าทีม..."></textarea>
                 </div>
             </div>
 
@@ -243,14 +282,14 @@
     <!-- สคริปต์การทำงานของระบบทั้งหมด (JavaScript) -->
     <!-- ========================================================================= -->
     <script>
-        // *** โปรดนำ URL ที่ได้จากการ Deploy ของคุณมาใส่ตรงนี้ ***
+        // *** โปรดนำ URL ที่ได้จากการ Deploy รอบล่าสุดของคุณมาใส่ตรงนี้ ***
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxcPPHWQecVaTEXiVoDLdzc9qgJMAq2nbIv_WQIz14IkmG53Q7lUEagKXJVX74-3Aw3/exec'; 
 
         let storeState = { 
             products: [], 
             cart: [], 
             adminPassword: '',
-            adminProducts: [], // ข้อมูลสินค้าของแอดมิน (มีช่องลับ)
+            adminProducts: [], 
             popupsAdminDraft: [],
             isProcessing: false 
         };
@@ -286,7 +325,7 @@
                     alert('พบข้อผิดพลาด: ' + result.message);
                 }
             } catch (error) {
-                alert('เชื่อมต่อฐานข้อมูลล้มเหลว กรุณาตรวจสอบ URL และสิทธิ์การทำงาน Apps Script');
+                alert('เชื่อมต่อฐานข้อมูลล้มเหลว กรุณาตรวจสอบ URL และสิทธิ์ Apps Script');
             } finally {
                 toggleLoadingView(false);
             }
@@ -298,12 +337,16 @@
             document.getElementById('dashboardAvailableStock').innerText = storeState.products.reduce((sum, p) => sum + p.stock, 0).toLocaleString();
         }
 
+        // แสดง Popups (รองรับรูปภาพ)
         function setupPopups(popups) {
             const container = document.getElementById('dynamicPopupList');
-            container.innerHTML = popups.map(message => `
-                <div class="p-3 bg-gray-50 border border-gray-100 text-xs font-medium text-black rounded-xl flex justify-between items-center">
-                    <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-black rounded-full"></span><span>${message}</span></div>
-                    <button onclick="this.parentElement.remove()" class="text-gray-400 font-bold px-1">&times;</button>
+            container.innerHTML = popups.map(p => `
+                <div class="p-3 bg-gray-50 border border-gray-100 rounded-xl flex justify-between items-center gap-3 shadow-sm">
+                    <div class="flex items-center gap-3 flex-1 min-w-0">
+                        ${p.image ? `<img src="${p.image}" class="w-10 h-10 object-cover rounded-lg flex-shrink-0 border border-gray-200">` : `<span class="w-2 h-2 bg-black rounded-full flex-shrink-0 mx-1"></span>`}
+                        <span class="text-xs font-medium text-black truncate">${p.text}</span>
+                    </div>
+                    <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-black font-bold px-2 text-lg">&times;</button>
                 </div>
             `).join('');
         }
@@ -343,25 +386,74 @@
             });
         }
 
+        // การ์ดสินค้า สามารถคลิกได้ทั้งการ์ดเพื่อดูรายละเอียด
         function createProductCardHtml(product, isRec) {
             return `
-                <div class="${isRec ? 'w-48 flex-shrink-0' : ''} bg-white border border-gray-100 rounded-xl overflow-hidden flex flex-col">
-                    <div class="h-28 bg-gray-50 relative">
-                        ${product.image ? `<img src="${product.image}" class="w-full h-full object-cover">` : ''}
+                <div class="${isRec ? 'w-48 flex-shrink-0' : ''} bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm flex flex-col cursor-pointer hover:shadow-md transition group" onclick="openProductDetail('${product.id}')">
+                    <div class="h-28 bg-gray-50 relative overflow-hidden">
+                        ${product.image ? `<img src="${product.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">` : ''}
                         ${product.stock <= 0 ? `<div class="absolute inset-0 bg-white/80 flex items-center justify-center text-xs font-bold text-red-500">สินค้าหมด</div>` : ''}
                     </div>
                     <div class="p-3 flex flex-col flex-1">
-                        <h4 class="font-bold text-xs truncate">${product.name}</h4>
+                        <h4 class="font-bold text-xs text-black truncate">${product.name}</h4>
                         <div class="pt-2 mt-auto flex justify-between items-center">
                             <span class="font-bold text-xs text-black">฿${product.price}</span>
-                            <button onclick="addItemToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center font-bold disabled:bg-gray-200">+</button>
+                            <button onclick="event.stopPropagation(); addItemToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center font-bold disabled:bg-gray-200 transition hover:bg-gray-800 focus:outline-none shadow-sm">+</button>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        // ระบบตะกร้าสินค้าและการโอนเงิน
+        // เปิดหน้าต่างรายละเอียดสินค้า
+        function openProductDetail(id) {
+            const product = storeState.products.find(p => p.id === id);
+            if(!product) return;
+            
+            document.getElementById('detailImage').src = product.image || 'https://via.placeholder.com/400?text=No+Image';
+            document.getElementById('detailCategory').innerText = product.category;
+            document.getElementById('detailName').innerText = product.name;
+            document.getElementById('detailPrice').innerText = '฿' + product.price.toLocaleString();
+            
+            const btn = document.getElementById('detailAddToCartBtn');
+            if (product.stock <= 0) {
+                document.getElementById('detailStock').innerText = 'สินค้าหมดแล้ว';
+                document.getElementById('detailStock').className = 'text-xs font-medium text-red-500 bg-red-50 px-2 py-1 rounded';
+                btn.disabled = true;
+                btn.innerText = 'สินค้าหมด';
+                btn.className = 'w-full py-3.5 bg-gray-300 text-white rounded-xl font-bold mt-4';
+            } else {
+                document.getElementById('detailStock').innerText = 'เหลือ ' + product.stock + ' ชิ้น';
+                document.getElementById('detailStock').className = 'text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded';
+                btn.disabled = false;
+                btn.innerText = 'เพิ่มลงตะกร้า ฿' + product.price.toLocaleString();
+                btn.className = 'w-full py-3.5 bg-black text-white rounded-xl font-bold mt-4 hover:bg-gray-800 transition shadow-md active:scale-[0.98]';
+                btn.onclick = function() {
+                    addItemToCart(product.id);
+                    closeProductDetail();
+                };
+            }
+            
+            const modal = document.getElementById('productDetailModal');
+            const content = document.getElementById('productDetailContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeProductDetail() {
+            const modal = document.getElementById('productDetailModal');
+            const content = document.getElementById('productDetailContent');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // ระบบตะกร้าสินค้า
         function addItemToCart(id) {
             const product = storeState.products.find(p => p.id === id.toString());
             if (!product || product.stock <= 0) return;
@@ -417,6 +509,7 @@
             reader.onload = () => resolve(reader.result); reader.onerror = e => reject(e);
         });
 
+        // อัปโหลดสลิป
         document.getElementById('slipFileInputButton').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             const email = document.getElementById('customerInputEmail').value.trim();
@@ -455,7 +548,7 @@
         });
 
         // =====================================================================
-        // ระบบแอดมินและการแก้ไขข้อมูล
+        // ระบบแอดมินหลังบ้าน (Admin System)
         // =====================================================================
         async function promptAdminLogin() {
             const pass = prompt('ใส่รหัสผ่านหลังบ้าน (ค่าเริ่มต้น: 123456):');
@@ -492,7 +585,7 @@
             document.getElementById('adminDashboardView').classList.add('hidden');
             document.getElementById('mainStoreView').classList.remove('hidden');
             document.getElementById('mainStoreFooter').classList.remove('hidden');
-            runStoreApp(); // รีเฟรชหน้าร้านให้ลูกค้า
+            runStoreApp(); 
         }
 
         async function adminSaveSettings() {
@@ -513,24 +606,31 @@
             finally { toggleLoadingView(false); }
         }
 
+        // จัดการ Popups ฝั่งแอดมิน (รองรับรูปภาพ)
         function renderAdminPopups() {
             const container = document.getElementById('adminPopupListContainer');
             if(storeState.popupsAdminDraft.length === 0) {
                 return container.innerHTML = '<p class="text-xs text-gray-400">ยังไม่มีข้อความแจ้งเตือน</p>';
             }
-            container.innerHTML = storeState.popupsAdminDraft.map((msg, idx) => `
-                <div class="flex justify-between items-center p-3 bg-white border rounded-lg shadow-sm">
-                    <span class="text-sm truncate pr-4">${msg}</span>
+            container.innerHTML = storeState.popupsAdminDraft.map((p, idx) => `
+                <div class="flex justify-between items-center p-3 bg-white border rounded-lg shadow-sm gap-3">
+                    ${p.image ? `<img src="${p.image}" class="w-8 h-8 rounded object-cover flex-shrink-0">` : ''}
+                    <span class="text-sm truncate flex-1">${p.text}</span>
                     <button onclick="storeState.popupsAdminDraft.splice(${idx}, 1); renderAdminPopups();" class="text-red-500 font-bold text-xs hover:underline">ลบ</button>
                 </div>
             `).join('');
         }
 
         function adminAddPopup() {
-            const input = document.getElementById('adminNewPopupInput');
-            if (input.value.trim()) {
-                storeState.popupsAdminDraft.push(input.value.trim());
-                input.value = '';
+            const textInput = document.getElementById('adminNewPopupInput');
+            const imgInput = document.getElementById('adminNewPopupImage');
+            if (textInput.value.trim()) {
+                storeState.popupsAdminDraft.push({ 
+                    text: textInput.value.trim(), 
+                    image: imgInput.value.trim() 
+                });
+                textInput.value = '';
+                imgInput.value = '';
                 renderAdminPopups();
             }
         }
@@ -550,7 +650,7 @@
             finally { toggleLoadingView(false); }
         }
 
-        // --- ส่วนจัดการสินค้า ---
+        // --- ส่วนจัดการสินค้าแอดมิน ---
         function renderAdminProducts() {
             const container = document.getElementById('adminProductListContainer');
             if (storeState.adminProducts.length === 0) {
@@ -559,14 +659,14 @@
 
             container.innerHTML = storeState.adminProducts.map(p => `
                 <div class="p-4 bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col md:flex-row gap-4 items-start md:items-center">
-                    <img src="${p.image || 'https://via.placeholder.com/150'}" class="w-16 h-16 object-cover rounded-lg border bg-gray-50">
-                    <div class="flex-1 min-w-0">
+                    <img src="${p.image || 'https://via.placeholder.com/150'}" class="w-16 h-16 object-cover rounded-lg border bg-gray-50 flex-shrink-0">
+                    <div class="flex-1 min-w-0 w-full">
                         <div class="flex gap-2 items-center mb-1">
                             <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded uppercase">${p.id}</span>
                             <h4 class="text-sm font-bold text-black truncate">${p.name}</h4>
                         </div>
                         <p class="text-xs text-gray-500">หมวดหมู่: ${p.category} | ราคา: ฿${p.price} | สต๊อก: ${p.stock}</p>
-                        <p class="text-[10px] text-red-500 font-medium truncate max-w-full mt-1 bg-red-50 p-1 px-2 rounded inline-block">ข้อมูลลับ: ${p.data}</p>
+                        <p class="text-[10px] text-red-500 font-medium truncate w-full mt-1 bg-red-50 p-1 px-2 rounded inline-block">ข้อมูลลับ: ${p.data}</p>
                     </div>
                     <div class="flex gap-2 w-full md:w-auto mt-2 md:mt-0">
                         <button onclick="adminOpenProductModal('${p.id}')" class="flex-1 px-4 py-2 bg-gray-100 text-xs font-bold rounded-lg hover:bg-gray-200 transition">แก้ไข</button>
@@ -636,7 +736,7 @@
                 if (result.status === 'success') {
                     alert(result.message);
                     adminCloseProductModal();
-                    await refreshAdminProductsData(); // รีเฟรชตารางสินค้า
+                    await refreshAdminProductsData(); 
                 } else {
                     alert(result.message);
                 }
@@ -666,7 +766,6 @@
             finally { toggleLoadingView(false); }
         }
 
-        // ดึงข้อมูลสินค้าของแอดมินใหม่
         async function refreshAdminProductsData() {
             try {
                 const response = await fetch(GAS_API_URL, {
